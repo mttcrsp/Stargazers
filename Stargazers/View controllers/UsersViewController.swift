@@ -24,7 +24,6 @@ final class UsersViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = NSLocalizedString("✨ Stargazers", comment: "initial screen title")
-        navigationItem.largeTitleDisplayMode = .automatic
         tableView.register(UserTableViewCell.self, forCellReuseIdentifier: UserTableViewCell.reuseIdentifier)
     }
     

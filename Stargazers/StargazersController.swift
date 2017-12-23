@@ -33,7 +33,9 @@ final class StargazersController {
         let usersViewController = UsersViewController()
         usersViewController.delegate = self
         usersViewController.dataSource = self
-        return usersViewController.embeddedInNavigationController
+        let navigationController = usersViewController.embeddedInNavigationController
+        navigationController.navigationBar.prefersLargeTitles = true
+        return navigationController
     }
     
     func performSearch(_ query: String) {

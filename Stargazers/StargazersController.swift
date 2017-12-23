@@ -30,7 +30,7 @@ final class StargazersController: NSObject {
         
         searchController.searchResultsUpdater = self
         searchController.dimsBackgroundDuringPresentation = false
-        searchController.searchBar.placeholder = NSLocalizedString("Search users", comment: "Users search bar placeholder")
+        searchController.searchBar.placeholder = NSLocalizedString("Search user", comment: "Users search bar placeholder")
         
         searchThrottler = Throttler(limit: 0.5) { [weak self] in
             if let `self` = self, !self.query.isEmpty { self.performSearch(self.query) }
@@ -43,6 +43,7 @@ final class StargazersController: NSObject {
         usersViewController.dataSource = self
         usersViewController.navigationItem.hidesSearchBarWhenScrolling = false
         usersViewController.navigationItem.searchController = searchController
+        usersViewController.definesPresentationContext = true
         
         let navigationController = usersViewController.embeddedInNavigationController
         navigationController.navigationBar.prefersLargeTitles = true
@@ -85,7 +86,7 @@ extension StargazersController: UsersViewControllerDataSource, UsersViewControll
         let repositoriesViewController = RepositoriesViewController()
         repositoriesViewController.delegate = self
         repositoriesViewController.dataSource = self
-        usersViewController.navigationController?.present(repositoriesViewController, animated: true)
+        usersViewController.show(repositoriesViewController, sender: usersViewController)
     }
 }
 
@@ -94,7 +95,7 @@ extension StargazersController: RepositoriesViewControllerDataSource, Repositori
     func repositoriesViewController(_ repositoriesViewController: RepositoriesViewController, didSelect repository: Repository) {
         let stargazersViewController = StargazersViewController()
         stargazersViewController.dataSource = self
-        repositoriesViewController.navigationController?.pushViewController(stargazersViewController, animated: true)
+        repositoriesViewController.show(stargazersViewController, sender: repositoriesViewController)
     }
 }
 

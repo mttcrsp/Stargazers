@@ -81,19 +81,41 @@ extension StargazersController: UISearchResultsUpdating {
 extension StargazersController: UsersViewControllerDataSource, UsersViewControllerDelegate {
     
     func usersViewController(_ usersViewController: UsersViewController, didSelect user: User) {
-        let repositoriesViewController = RepositoriesViewController()
-        repositoriesViewController.delegate = self
-        repositoriesViewController.dataSource = self
-        usersViewController.show(repositoriesViewController, sender: usersViewController)
+        gitHubClient.repositories(for: user) { [weak self, weak usersViewController] result in
+            guard let `self` = self, let usersViewController = usersViewController else { return }
+            
+            switch result {
+            case .failure(let error):
+                usersViewController.display(error)
+            case .success(let repositories):
+                self.repositories = repositories
+                let repositoriesViewController = RepositoriesViewController()
+                repositoriesViewController.delegate = self
+                repositoriesViewController.dataSource = self
+                repositoriesViewController.title = user.login
+                repositoriesViewController.navigationItem.largeTitleDisplayMode = .never
+                usersViewController.show(repositoriesViewController, sender: usersViewController)
+            }
+        }
     }
 }
 
 extension StargazersController: RepositoriesViewControllerDataSource, RepositoriesViewControllerDelegate {
     
     func repositoriesViewController(_ repositoriesViewController: RepositoriesViewController, didSelect repository: Repository) {
-        let stargazersViewController = StargazersViewController()
-        stargazersViewController.dataSource = self
-        repositoriesViewController.show(stargazersViewController, sender: repositoriesViewController)
+        gitHubClient.stargazers(for: repository) { [weak self, weak repositoriesViewController] result in
+            guard let `self` = self, let repositoriesViewController = repositoriesViewController else { return }
+            
+            switch result {
+            case .failure(let error):
+                repositoriesViewController.display(error)
+            case .success(let stargazers):
+                self.stargazers = stargazers
+                let stargazersViewController = StargazersViewController()
+                stargazersViewController.dataSource = self
+                repositoriesViewController.show(stargazersViewController, sender: repositoriesViewController)
+            }
+        }
     }
 }
 

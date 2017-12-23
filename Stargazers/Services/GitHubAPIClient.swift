@@ -78,6 +78,8 @@ final class GitHubAPIClient {
     
     private func performRequest<T: Codable>(with url: URL, completion: @escaping (Result<T, Error>) -> Void) {
         session.dataTask(with: url) { [weak self] data, _, error in
+            guard let `self` = self else { return }
+            
             let result: Result<T, Error>
             
             switch (data, error) {
@@ -94,7 +96,7 @@ final class GitHubAPIClient {
                 result = .failure(.networking)
             }
             
-            self?.onCallbackQueue { completion(result) }
+            self.onCallbackQueue { completion(result) }
         }.resume()
     }
     

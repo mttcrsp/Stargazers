@@ -15,12 +15,12 @@ final class StargazersController: NSObject {
     private (set) var stargazers: [User] = []
     private (set) var repositories: [Repository] = []
     
-    private let searchController = UISearchController(searchResultsController: nil)
-    
     private weak var usersViewController: UsersViewController?
     
-    private var gitHubClient: GitHubAPIClient
+    private let searchController = UISearchController(searchResultsController: nil)
+    
     private var searchThrottler: Throttler?
+    private var gitHubClient: GitHubAPIClient
     
     init(gitHubClient: GitHubAPIClient = GitHubAPIClient()) {
         self.gitHubClient = gitHubClient
@@ -73,8 +73,8 @@ final class StargazersController: NSObject {
 extension StargazersController: UISearchResultsUpdating {
     
     func updateSearchResults(for searchController: UISearchController) {
-        self.query = searchController.searchBar.text ?? ""
-        self.searchThrottler?.execute()
+        query = searchController.searchBar.text ?? ""
+        searchThrottler?.execute()
     }
 }
 
@@ -113,12 +113,11 @@ extension StargazersController: RepositoriesViewControllerDataSource, Repositori
                 self.stargazers = stargazers
                 let stargazersViewController = StargazersViewController()
                 stargazersViewController.dataSource = self
+                stargazersViewController.title = repository.name
                 repositoriesViewController.show(stargazersViewController, sender: repositoriesViewController)
             }
         }
     }
 }
 
-extension StargazersController: StargazersViewControllerDataSource {
-    
-}
+extension StargazersController: StargazersViewControllerDataSource {}

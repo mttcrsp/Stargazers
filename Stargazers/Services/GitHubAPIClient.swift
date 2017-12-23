@@ -56,7 +56,7 @@ final class GitHubAPIClient {
         if let url = url {
             performRequest(with: url, completion: completion)
         } else {
-            completion(.failure(Error.invalidQuery))
+            onCallbackQueue { completion(.failure(Error.invalidQuery)) }
         }
     }
     
@@ -64,7 +64,7 @@ final class GitHubAPIClient {
         if let url = user.repositoriesURL.appendingQueryItem(name: "page", value: page.description) {
             performRequest(with: url, completion: completion)
         } else {
-            completion(.failure(.networking))
+            onCallbackQueue { completion(.failure(.networking)) }
         }
     }
     
@@ -72,7 +72,7 @@ final class GitHubAPIClient {
         if let url = repository.stargazersURL.appendingQueryItem(name: "page", value: page.description) {
             performRequest(with: url, completion: completion)
         } else {
-            completion(.failure(.networking))
+            onCallbackQueue { completion(.failure(.networking)) }
         }
     }
     

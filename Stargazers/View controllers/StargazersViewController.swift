@@ -33,6 +33,7 @@ final class StargazersViewController: UITableViewController { // Uses prefetchin
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: UserTableViewCell.reuseIdentifier, for: indexPath) as! UserTableViewCell
+        cell.selectionStyle = .none
         cell.configure(with: users[indexPath.row])
         return cell
     }

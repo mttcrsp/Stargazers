@@ -13,6 +13,13 @@
 		E3C9FDE81FEE47B900182B8E /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C9FDE71FEE47B900182B8E /* User.swift */; };
 		E3C9FDEA1FEE47D700182B8E /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C9FDE91FEE47D700182B8E /* Repository.swift */; };
 		E3C9FDEC1FEE47E500182B8E /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C9FDEB1FEE47E500182B8E /* Result.swift */; };
+		E3C9FDEF1FEE484400182B8E /* UsersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C9FDEE1FEE484400182B8E /* UsersViewController.swift */; };
+		E3C9FDF11FEE486500182B8E /* RepositoriesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C9FDF01FEE486500182B8E /* RepositoriesViewController.swift */; };
+		E3C9FDF31FEE489800182B8E /* StargazersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C9FDF21FEE489800182B8E /* StargazersViewController.swift */; };
+		E3C9FDF61FEE48CC00182B8E /* UserTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C9FDF51FEE48CC00182B8E /* UserTableViewCell.swift */; };
+		E3C9FDF81FEE48E700182B8E /* RepositoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C9FDF71FEE48E700182B8E /* RepositoryTableViewCell.swift */; };
+		E3C9FDFB1FEE493800182B8E /* UITableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C9FDFA1FEE493800182B8E /* UITableViewCell.swift */; };
+		E3C9FDFD1FEE495200182B8E /* UIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C9FDFC1FEE495200182B8E /* UIImageView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +31,13 @@
 		E3C9FDE71FEE47B900182B8E /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		E3C9FDE91FEE47D700182B8E /* Repository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Repository.swift; sourceTree = "<group>"; };
 		E3C9FDEB1FEE47E500182B8E /* Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
+		E3C9FDEE1FEE484400182B8E /* UsersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersViewController.swift; sourceTree = "<group>"; };
+		E3C9FDF01FEE486500182B8E /* RepositoriesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoriesViewController.swift; sourceTree = "<group>"; };
+		E3C9FDF21FEE489800182B8E /* StargazersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StargazersViewController.swift; sourceTree = "<group>"; };
+		E3C9FDF51FEE48CC00182B8E /* UserTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTableViewCell.swift; sourceTree = "<group>"; };
+		E3C9FDF71FEE48E700182B8E /* RepositoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryTableViewCell.swift; sourceTree = "<group>"; };
+		E3C9FDFA1FEE493800182B8E /* UITableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableViewCell.swift; sourceTree = "<group>"; };
+		E3C9FDFC1FEE495200182B8E /* UIImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,8 +73,9 @@
 				E3C9FDE11FEE465700182B8E /* Info.plist */,
 				E3C9FDD51FEE465700182B8E /* AppDelegate.swift */,
 				E3C9FDED1FEE47F500182B8E /* Models */,
-				E3C9FDDC1FEE465700182B8E /* Assets.xcassets */,
-				E3C9FDDE1FEE465700182B8E /* LaunchScreen.storyboard */,
+				E3C9FDF91FEE48FD00182B8E /* Views */,
+				E3C9FDF41FEE48AC00182B8E /* View controllers */,
+				E3C9FDFE1FEE497300182B8E /* Extensions */,
 			);
 			path = Stargazers;
 			sourceTree = "<group>";
@@ -73,6 +88,36 @@
 				E3C9FDE71FEE47B900182B8E /* User.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		E3C9FDF41FEE48AC00182B8E /* View controllers */ = {
+			isa = PBXGroup;
+			children = (
+				E3C9FDF01FEE486500182B8E /* RepositoriesViewController.swift */,
+				E3C9FDF21FEE489800182B8E /* StargazersViewController.swift */,
+				E3C9FDEE1FEE484400182B8E /* UsersViewController.swift */,
+			);
+			path = "View controllers";
+			sourceTree = "<group>";
+		};
+		E3C9FDF91FEE48FD00182B8E /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				E3C9FDDC1FEE465700182B8E /* Assets.xcassets */,
+				E3C9FDDE1FEE465700182B8E /* LaunchScreen.storyboard */,
+				E3C9FDF71FEE48E700182B8E /* RepositoryTableViewCell.swift */,
+				E3C9FDF51FEE48CC00182B8E /* UserTableViewCell.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		E3C9FDFE1FEE497300182B8E /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				E3C9FDFA1FEE493800182B8E /* UITableViewCell.swift */,
+				E3C9FDFC1FEE495200182B8E /* UIImageView.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -146,8 +191,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E3C9FDF81FEE48E700182B8E /* RepositoryTableViewCell.swift in Sources */,
 				E3C9FDD61FEE465700182B8E /* AppDelegate.swift in Sources */,
+				E3C9FDF11FEE486500182B8E /* RepositoriesViewController.swift in Sources */,
 				E3C9FDE81FEE47B900182B8E /* User.swift in Sources */,
+				E3C9FDF31FEE489800182B8E /* StargazersViewController.swift in Sources */,
+				E3C9FDFB1FEE493800182B8E /* UITableViewCell.swift in Sources */,
+				E3C9FDFD1FEE495200182B8E /* UIImageView.swift in Sources */,
+				E3C9FDF61FEE48CC00182B8E /* UserTableViewCell.swift in Sources */,
+				E3C9FDEF1FEE484400182B8E /* UsersViewController.swift in Sources */,
 				E3C9FDEC1FEE47E500182B8E /* Result.swift in Sources */,
 				E3C9FDEA1FEE47D700182B8E /* Repository.swift in Sources */,
 			);

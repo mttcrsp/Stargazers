@@ -10,6 +10,9 @@
 		E3C9FDD61FEE465700182B8E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C9FDD51FEE465700182B8E /* AppDelegate.swift */; };
 		E3C9FDDD1FEE465700182B8E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E3C9FDDC1FEE465700182B8E /* Assets.xcassets */; };
 		E3C9FDE01FEE465700182B8E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E3C9FDDE1FEE465700182B8E /* LaunchScreen.storyboard */; };
+		E3C9FDE81FEE47B900182B8E /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C9FDE71FEE47B900182B8E /* User.swift */; };
+		E3C9FDEA1FEE47D700182B8E /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C9FDE91FEE47D700182B8E /* Repository.swift */; };
+		E3C9FDEC1FEE47E500182B8E /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C9FDEB1FEE47E500182B8E /* Result.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -18,6 +21,9 @@
 		E3C9FDDC1FEE465700182B8E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E3C9FDDF1FEE465700182B8E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E3C9FDE11FEE465700182B8E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E3C9FDE71FEE47B900182B8E /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		E3C9FDE91FEE47D700182B8E /* Repository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Repository.swift; sourceTree = "<group>"; };
+		E3C9FDEB1FEE47E500182B8E /* Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -50,12 +56,23 @@
 		E3C9FDD41FEE465700182B8E /* Stargazers */ = {
 			isa = PBXGroup;
 			children = (
+				E3C9FDE11FEE465700182B8E /* Info.plist */,
 				E3C9FDD51FEE465700182B8E /* AppDelegate.swift */,
+				E3C9FDED1FEE47F500182B8E /* Models */,
 				E3C9FDDC1FEE465700182B8E /* Assets.xcassets */,
 				E3C9FDDE1FEE465700182B8E /* LaunchScreen.storyboard */,
-				E3C9FDE11FEE465700182B8E /* Info.plist */,
 			);
 			path = Stargazers;
+			sourceTree = "<group>";
+		};
+		E3C9FDED1FEE47F500182B8E /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				E3C9FDE91FEE47D700182B8E /* Repository.swift */,
+				E3C9FDEB1FEE47E500182B8E /* Result.swift */,
+				E3C9FDE71FEE47B900182B8E /* User.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -130,6 +147,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				E3C9FDD61FEE465700182B8E /* AppDelegate.swift in Sources */,
+				E3C9FDE81FEE47B900182B8E /* User.swift in Sources */,
+				E3C9FDEC1FEE47E500182B8E /* Result.swift in Sources */,
+				E3C9FDEA1FEE47D700182B8E /* Repository.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

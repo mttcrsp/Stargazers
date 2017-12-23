@@ -18,14 +18,13 @@ final class StargazersController: NSObject {
     private let searchController = UISearchController(searchResultsController: nil)
     
     private weak var usersViewController: UsersViewController?
-    private weak var repositoriesViewController: RepositoriesViewController?
-    private weak var stargazersViewController: StargazersViewController?
     
     private var gitHubClient: GitHubAPIClient
     private var searchThrottler: Throttler?
     
     init(gitHubClient: GitHubAPIClient = GitHubAPIClient()) {
         self.gitHubClient = gitHubClient
+        
         super.init()
         
         searchController.searchResultsUpdater = self
@@ -45,11 +44,10 @@ final class StargazersController: NSObject {
         usersViewController.navigationItem.searchController = searchController
         usersViewController.definesPresentationContext = true
         
-        let navigationController = usersViewController.embeddedInNavigationController
-        navigationController.navigationBar.prefersLargeTitles = true
-        
         self.usersViewController = usersViewController
         
+        let navigationController = usersViewController.embeddedInNavigationController
+        navigationController.navigationBar.prefersLargeTitles = true
         return navigationController
     }
     

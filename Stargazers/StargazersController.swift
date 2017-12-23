@@ -5,7 +5,7 @@
 
 import UIKit
 
-final class StargazersController {
+final class StargazersController: NSObject {
     
     private (set) var query = ""
     private (set) var selectedUser: User?
@@ -14,6 +14,8 @@ final class StargazersController {
     private (set) var users: [User] = []
     private (set) var stargazers: [User] = []
     private (set) var repositories: [Repository] = []
+    
+    private let searchController = UISearchController(searchResultsController: nil)
     
     private weak var usersViewController: UsersViewController?
     private weak var repositoriesViewController: RepositoriesViewController?
@@ -24,8 +26,14 @@ final class StargazersController {
     
     init(gitHubClient: GitHubAPIClient = GitHubAPIClient()) {
         self.gitHubClient = gitHubClient
-        self.searchThrottler = Throttler(limit: 0.5) { [weak self] in
-            if let `self` = self { self.performSearch(self.query) }
+        super.init()
+        
+        searchController.searchResultsUpdater = self
+        searchController.dimsBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = NSLocalizedString("Search users", comment: "Users search bar placeholder")
+        
+        searchThrottler = Throttler(limit: 0.5) { [weak self] in
+            if let `self` = self, !self.query.isEmpty { self.performSearch(self.query) }
         }
     }
     
@@ -33,8 +41,14 @@ final class StargazersController {
         let usersViewController = UsersViewController()
         usersViewController.delegate = self
         usersViewController.dataSource = self
+        usersViewController.navigationItem.hidesSearchBarWhenScrolling = false
+        usersViewController.navigationItem.searchController = searchController
+        
         let navigationController = usersViewController.embeddedInNavigationController
         navigationController.navigationBar.prefersLargeTitles = true
+        
+        self.usersViewController = usersViewController
+        
         return navigationController
     }
     
@@ -57,12 +71,15 @@ final class StargazersController {
     func loadMoreStargazers() {}
 }
 
-extension StargazersController: UsersViewControllerDataSource, UsersViewControllerDelegate {
+extension StargazersController: UISearchResultsUpdating {
     
-    func usersViewController(_ usersViewController: UsersViewController, didEnter query: String) {
-        self.query = query
+    func updateSearchResults(for searchController: UISearchController) {
+        self.query = searchController.searchBar.text ?? ""
         self.searchThrottler?.execute()
     }
+}
+
+extension StargazersController: UsersViewControllerDataSource, UsersViewControllerDelegate {
     
     func usersViewController(_ usersViewController: UsersViewController, didSelect user: User) {
         let repositoriesViewController = RepositoriesViewController()

@@ -7,10 +7,10 @@ import Foundation
 
 struct User: Codable {
     
-    enum Keys: String, CodingKey {
+    enum CodingKeys: String, CodingKey {
         case login
         case avatarURL = "avatar_url"
-        case repositoriesURL = "repositories_url"
+        case repositoriesURL = "repos_url"
     }
     
     let login: String

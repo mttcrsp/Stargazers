@@ -7,7 +7,7 @@ import Foundation
 
 struct Repository: Codable {
     
-    enum Keys: String, CodingKey {
+    enum CodingKeys: String, CodingKey {
         case name
         case stargazersURL = "stargazers_url"
         case stargazersCount = "stargazers_count"

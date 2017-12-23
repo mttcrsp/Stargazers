@@ -40,6 +40,10 @@ final class GitHubAPIClient {
         let items: [User]
     }
     
+    // WARNING: The GitHub API supports a maximum of 100 results per page (https://developer.github.com/v3/#pagination)
+    var stargazersPerPage: UInt = 100 { didSet { assert(stargazersPerPage > 0 && stargazersPerPage <= 100) } }
+    var repositoriesPerPage: UInt = 50  { didSet { assert(repositoriesPerPage > 0 && repositoriesPerPage <= 100) } }
+    
     private let baseURL: URL = "https://api.github.com"
     private let callbackQueue: DispatchQueue
     private let session: URLSession
@@ -53,30 +57,28 @@ final class GitHubAPIClient {
         let searchURL = baseURL.appendingPathComponent("search")
         let searchUserURL = searchURL.appendingPathComponent("users")
         let url = searchUserURL.appendingQueryItem(name: "q", value: query)
-        if let url = url {
-            performRequest(with: url, completion: completion)
-        } else {
-            onCallbackQueue { completion(.failure(Error.invalidQuery)) }
-        }
+        performRequest(with: url, completion: completion)
     }
     
-    func repositories(for user: User, page: Int = 0, completion: @escaping (Result<[Repository], Error>) -> Void) {
-        if let url = user.repositoriesURL.appendingQueryItem(name: "page", value: page.description) {
-            performRequest(with: url, completion: completion)
-        } else {
-            onCallbackQueue { completion(.failure(.networking)) }
-        }
+    func repositories(for user: User, page: UInt = 0, completion: @escaping (Result<[Repository], Error>) -> Void) {
+        let url = user.repositoriesURL
+            .appendingQueryItem(name: "page", value: page.description)?
+            .appendingQueryItem(name: "per_page", value: "\(repositoriesPerPage)")
+        performRequest(with: url, completion: completion)
     }
     
-    func stargazers(for repository: Repository, page: Int = 0, completion: @escaping (Result<[User], Error>) -> Void) {
-        if let url = repository.stargazersURL.appendingQueryItem(name: "page", value: page.description) {
-            performRequest(with: url, completion: completion)
-        } else {
-            onCallbackQueue { completion(.failure(.networking)) }
-        }
+    func stargazers(for repository: Repository, page: UInt = 0, completion: @escaping (Result<[User], Error>) -> Void) {
+        let url = repository.stargazersURL
+            .appendingQueryItem(name: "page", value: page.description)?
+            .appendingQueryItem(name: "per_page", value: "\(stargazersPerPage)")
+        performRequest(with: url, completion: completion)
     }
     
-    private func performRequest<T: Codable>(with url: URL, completion: @escaping (Result<T, Error>) -> Void) {
+    private func performRequest<T: Codable>(with url: URL?, completion: @escaping (Result<T, Error>) -> Void) {
+        guard let url = url else {
+            return onCallbackQueue { completion(.failure(.networking)) }
+        }
+        
         session.dataTask(with: url) { [weak self] data, _, error in
             guard let `self` = self else { return }
             

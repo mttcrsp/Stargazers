@@ -41,10 +41,12 @@ final class GitHubAPIClient {
     }
     
     private let baseURL: URL = "https://api.github.com"
+    private let callbackQueue: DispatchQueue
     private let session: URLSession
     
-    init(session: URLSession = .shared) {
+    init(session: URLSession = .shared, callbackQueue: DispatchQueue = .main) {
         self.session = session
+        self.callbackQueue = callbackQueue
     }
     
     func users(for query: String, completion: @escaping (Result<SearchUserResponse, Error>) -> Void) {
@@ -75,19 +77,28 @@ final class GitHubAPIClient {
     }
     
     private func performRequest<T: Codable>(with url: URL, completion: @escaping (Result<T, Error>) -> Void) {
-        session.dataTask(with: url) { data, _, error in
-            switch (error, data) {
-            case (let error?, nil) where error.isNoInternet:
-                completion(.failure(.noInternet))
-            case (nil, let data?):
+        session.dataTask(with: url) { [weak self] data, _, error in
+            let result: Result<T, Error>
+            
+            switch (data, error) {
+            case (let data?, nil):
                 do {
-                    completion(.success(try JSONDecoder().decode(T.self, from: data)))
+                    let value = try JSONDecoder().decode(T.self, from: data)
+                    result = .success(value)
                 } catch {
-                    completion(.failure(.networking))
+                    result = .failure(.networking)
                 }
+            case (nil, let error?) where error.isNoInternet:
+                result = .failure(.noInternet)
             default:
-                completion(.failure(.networking))
+                result = .failure(.networking)
             }
-        }
+            
+            self?.onCallbackQueue { completion(result) }
+        }.resume()
+    }
+    
+    private func onCallbackQueue(_ block: @escaping () -> Void) {
+        callbackQueue.async(execute: block)
     }
 }

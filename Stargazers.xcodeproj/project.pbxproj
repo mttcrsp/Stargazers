@@ -24,6 +24,8 @@
 		E3C9FE021FEE4A2500182B8E /* URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C9FE011FEE4A2500182B8E /* URL.swift */; };
 		E3C9FE041FEE4A6F00182B8E /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C9FE031FEE4A6F00182B8E /* Error.swift */; };
 		E3C9FE071FEE4AA400182B8E /* Throttler.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C9FE061FEE4AA400182B8E /* Throttler.swift */; };
+		E3C9FE091FEE4BF000182B8E /* StargazersController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C9FE081FEE4BF000182B8E /* StargazersController.swift */; };
+		E3C9FE0B1FEE4C1300182B8E /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C9FE0A1FEE4C1300182B8E /* UIViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +48,8 @@
 		E3C9FE011FEE4A2500182B8E /* URL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URL.swift; sourceTree = "<group>"; };
 		E3C9FE031FEE4A6F00182B8E /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
 		E3C9FE061FEE4AA400182B8E /* Throttler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Throttler.swift; sourceTree = "<group>"; };
+		E3C9FE081FEE4BF000182B8E /* StargazersController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StargazersController.swift; sourceTree = "<group>"; };
+		E3C9FE0A1FEE4C1300182B8E /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,6 +84,7 @@
 			children = (
 				E3C9FDE11FEE465700182B8E /* Info.plist */,
 				E3C9FDD51FEE465700182B8E /* AppDelegate.swift */,
+				E3C9FE081FEE4BF000182B8E /* StargazersController.swift */,
 				E3C9FE051FEE4A8A00182B8E /* Services */,
 				E3C9FDED1FEE47F500182B8E /* Models */,
 				E3C9FDF91FEE48FD00182B8E /* Views */,
@@ -124,6 +129,7 @@
 			isa = PBXGroup;
 			children = (
 				E3C9FE031FEE4A6F00182B8E /* Error.swift */,
+				E3C9FE0A1FEE4C1300182B8E /* UIViewController.swift */,
 				E3C9FDFC1FEE495200182B8E /* UIImageView.swift */,
 				E3C9FDFA1FEE493800182B8E /* UITableViewCell.swift */,
 				E3C9FE011FEE4A2500182B8E /* URL.swift */,
@@ -219,6 +225,7 @@
 				E3C9FE021FEE4A2500182B8E /* URL.swift in Sources */,
 				E3C9FDFB1FEE493800182B8E /* UITableViewCell.swift in Sources */,
 				E3C9FDFD1FEE495200182B8E /* UIImageView.swift in Sources */,
+				E3C9FE0B1FEE4C1300182B8E /* UIViewController.swift in Sources */,
 				E3C9FDF61FEE48CC00182B8E /* UserTableViewCell.swift in Sources */,
 				E3C9FE001FEE49FB00182B8E /* GitHubAPIClient.swift in Sources */,
 				E3C9FDEF1FEE484400182B8E /* UsersViewController.swift in Sources */,
@@ -226,6 +233,7 @@
 				E3C9FDEC1FEE47E500182B8E /* Result.swift in Sources */,
 				E3C9FE041FEE4A6F00182B8E /* Error.swift in Sources */,
 				E3C9FDEA1FEE47D700182B8E /* Repository.swift in Sources */,
+				E3C9FE091FEE4BF000182B8E /* StargazersController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

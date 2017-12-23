@@ -38,6 +38,7 @@ final class RepositoriesViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: RepositoryTableViewCell.reuseIdentifier, for: indexPath) as! RepositoryTableViewCell
+        cell.accessoryType = .disclosureIndicator
         cell.configure(with: repositories[indexPath.row])
         return cell
     }

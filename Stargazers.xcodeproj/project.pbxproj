@@ -31,7 +31,18 @@
 		E3C9FE1A1FF00AA000182B8E /* UITableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C9FE191FF00AA000182B8E /* UITableView.swift */; };
 		E3C9FE201FF036B700182B8E /* Webservice.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C9FE1F1FF036B700182B8E /* Webservice.swift */; };
 		E3C9FE221FF05B7E00182B8E /* Paginator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C9FE211FF05B7E00182B8E /* Paginator.swift */; };
+		E3C9FE2A1FF068EC00182B8E /* StargazersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C9FE291FF068EC00182B8E /* StargazersTests.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		E3C9FE2C1FF068EC00182B8E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E3C9FDCA1FEE465700182B8E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E3C9FDD11FEE465700182B8E;
+			remoteInfo = Stargazers;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		E3C9FDD21FEE465700182B8E /* Stargazers.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Stargazers.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -60,10 +71,20 @@
 		E3C9FE191FF00AA000182B8E /* UITableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableView.swift; sourceTree = "<group>"; };
 		E3C9FE1F1FF036B700182B8E /* Webservice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Webservice.swift; sourceTree = "<group>"; };
 		E3C9FE211FF05B7E00182B8E /* Paginator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Paginator.swift; sourceTree = "<group>"; };
+		E3C9FE271FF068EC00182B8E /* StargazersTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StargazersTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		E3C9FE291FF068EC00182B8E /* StargazersTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StargazersTests.swift; sourceTree = "<group>"; };
+		E3C9FE2B1FF068EC00182B8E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		E3C9FDCF1FEE465700182B8E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E3C9FE241FF068EC00182B8E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -77,6 +98,7 @@
 			isa = PBXGroup;
 			children = (
 				E3C9FDD41FEE465700182B8E /* Stargazers */,
+				E3C9FE281FF068EC00182B8E /* StargazersTests */,
 				E3C9FDD31FEE465700182B8E /* Products */,
 			);
 			sourceTree = "<group>";
@@ -85,6 +107,7 @@
 			isa = PBXGroup;
 			children = (
 				E3C9FDD21FEE465700182B8E /* Stargazers.app */,
+				E3C9FE271FF068EC00182B8E /* StargazersTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -169,6 +192,15 @@
 			path = Controllers;
 			sourceTree = "<group>";
 		};
+		E3C9FE281FF068EC00182B8E /* StargazersTests */ = {
+			isa = PBXGroup;
+			children = (
+				E3C9FE291FF068EC00182B8E /* StargazersTests.swift */,
+				E3C9FE2B1FF068EC00182B8E /* Info.plist */,
+			);
+			path = StargazersTests;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -189,6 +221,24 @@
 			productReference = E3C9FDD21FEE465700182B8E /* Stargazers.app */;
 			productType = "com.apple.product-type.application";
 		};
+		E3C9FE261FF068EC00182B8E /* StargazersTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E3C9FE2E1FF068EC00182B8E /* Build configuration list for PBXNativeTarget "StargazersTests" */;
+			buildPhases = (
+				E3C9FE231FF068EC00182B8E /* Sources */,
+				E3C9FE241FF068EC00182B8E /* Frameworks */,
+				E3C9FE251FF068EC00182B8E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E3C9FE2D1FF068EC00182B8E /* PBXTargetDependency */,
+			);
+			name = StargazersTests;
+			productName = StargazersTests;
+			productReference = E3C9FE271FF068EC00182B8E /* StargazersTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -202,6 +252,11 @@
 					E3C9FDD11FEE465700182B8E = {
 						CreatedOnToolsVersion = 9.2;
 						ProvisioningStyle = Automatic;
+					};
+					E3C9FE261FF068EC00182B8E = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+						TestTargetID = E3C9FDD11FEE465700182B8E;
 					};
 				};
 			};
@@ -219,6 +274,7 @@
 			projectRoot = "";
 			targets = (
 				E3C9FDD11FEE465700182B8E /* Stargazers */,
+				E3C9FE261FF068EC00182B8E /* StargazersTests */,
 			);
 		};
 /* End PBXProject section */
@@ -230,6 +286,13 @@
 			files = (
 				E3C9FDE01FEE465700182B8E /* LaunchScreen.storyboard in Resources */,
 				E3C9FDDD1FEE465700182B8E /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E3C9FE251FF068EC00182B8E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -265,7 +328,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		E3C9FE231FF068EC00182B8E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E3C9FE2A1FF068EC00182B8E /* StargazersTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		E3C9FE2D1FF068EC00182B8E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E3C9FDD11FEE465700182B8E /* Stargazers */;
+			targetProxy = E3C9FE2C1FF068EC00182B8E /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		E3C9FDDE1FEE465700182B8E /* LaunchScreen.storyboard */ = {
@@ -418,6 +497,36 @@
 			};
 			name = Release;
 		};
+		E3C9FE2F1FF068EC00182B8E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = StargazersTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.mttcrsp.StargazersTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Stargazers.app/Stargazers";
+			};
+			name = Debug;
+		};
+		E3C9FE301FF068EC00182B8E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = StargazersTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.mttcrsp.StargazersTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Stargazers.app/Stargazers";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -435,6 +544,15 @@
 			buildConfigurations = (
 				E3C9FDE51FEE465700182B8E /* Debug */,
 				E3C9FDE61FEE465700182B8E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E3C9FE2E1FF068EC00182B8E /* Build configuration list for PBXNativeTarget "StargazersTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E3C9FE2F1FF068EC00182B8E /* Debug */,
+				E3C9FE301FF068EC00182B8E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -26,6 +26,7 @@
 		E3C9FE071FEE4AA400182B8E /* Throttler.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C9FE061FEE4AA400182B8E /* Throttler.swift */; };
 		E3C9FE091FEE4BF000182B8E /* StargazersController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C9FE081FEE4BF000182B8E /* StargazersController.swift */; };
 		E3C9FE0B1FEE4C1300182B8E /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C9FE0A1FEE4C1300182B8E /* UIViewController.swift */; };
+		E3C9FE121FEFBE0600182B8E /* Limiter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C9FE111FEFBE0600182B8E /* Limiter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -50,6 +51,7 @@
 		E3C9FE061FEE4AA400182B8E /* Throttler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Throttler.swift; sourceTree = "<group>"; };
 		E3C9FE081FEE4BF000182B8E /* StargazersController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StargazersController.swift; sourceTree = "<group>"; };
 		E3C9FE0A1FEE4C1300182B8E /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
+		E3C9FE111FEFBE0600182B8E /* Limiter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Limiter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,11 +86,11 @@
 			children = (
 				E3C9FDE11FEE465700182B8E /* Info.plist */,
 				E3C9FDD51FEE465700182B8E /* AppDelegate.swift */,
-				E3C9FE081FEE4BF000182B8E /* StargazersController.swift */,
-				E3C9FE051FEE4A8A00182B8E /* Services */,
+				E3C9FE0E1FEF24EC00182B8E /* Controllers */,
 				E3C9FDED1FEE47F500182B8E /* Models */,
 				E3C9FDF91FEE48FD00182B8E /* Views */,
 				E3C9FDF41FEE48AC00182B8E /* View controllers */,
+				E3C9FE051FEE4A8A00182B8E /* Services */,
 				E3C9FDFE1FEE497300182B8E /* Extensions */,
 			);
 			path = Stargazers;
@@ -142,8 +144,17 @@
 			children = (
 				E3C9FDFF1FEE49FB00182B8E /* GitHubAPIClient.swift */,
 				E3C9FE061FEE4AA400182B8E /* Throttler.swift */,
+				E3C9FE111FEFBE0600182B8E /* Limiter.swift */,
 			);
 			path = Services;
+			sourceTree = "<group>";
+		};
+		E3C9FE0E1FEF24EC00182B8E /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				E3C9FE081FEE4BF000182B8E /* StargazersController.swift */,
+			);
+			path = Controllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -229,6 +240,7 @@
 				E3C9FDF61FEE48CC00182B8E /* UserTableViewCell.swift in Sources */,
 				E3C9FE001FEE49FB00182B8E /* GitHubAPIClient.swift in Sources */,
 				E3C9FDEF1FEE484400182B8E /* UsersViewController.swift in Sources */,
+				E3C9FE121FEFBE0600182B8E /* Limiter.swift in Sources */,
 				E3C9FE071FEE4AA400182B8E /* Throttler.swift in Sources */,
 				E3C9FDEC1FEE47E500182B8E /* Result.swift in Sources */,
 				E3C9FE041FEE4A6F00182B8E /* Error.swift in Sources */,
@@ -365,6 +377,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3CM92FF2C5;
 				INFOPLIST_FILE = Stargazers/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mttcrsp.Stargazers;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -380,6 +393,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3CM92FF2C5;
 				INFOPLIST_FILE = Stargazers/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mttcrsp.Stargazers;
 				PRODUCT_NAME = "$(TARGET_NAME)";

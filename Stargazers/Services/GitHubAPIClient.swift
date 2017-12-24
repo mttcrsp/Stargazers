@@ -41,8 +41,8 @@ final class GitHubAPIClient {
     }
     
     // WARNING: The GitHub API supports a maximum of 100 results per page (https://developer.github.com/v3/#pagination)
-    var stargazersPerPage: UInt = 100 { didSet { assert(stargazersPerPage > 0 && stargazersPerPage <= 100) } }
-    var repositoriesPerPage: UInt = 50  { didSet { assert(repositoriesPerPage > 0 && repositoriesPerPage <= 100) } }
+    var stargazersPerPage: Int = 100 { didSet { assert(stargazersPerPage > 0 && stargazersPerPage <= 100) } }
+    var repositoriesPerPage: Int = 50  { didSet { assert(repositoriesPerPage > 0 && repositoriesPerPage <= 100) } }
     
     private let baseURL: URL = "https://api.github.com"
     private let callbackQueue: DispatchQueue
@@ -60,14 +60,14 @@ final class GitHubAPIClient {
         performRequest(with: url, completion: completion)
     }
     
-    func repositories(for user: User, page: UInt = 0, completion: @escaping (Result<[Repository], Error>) -> Void) {
+    func repositories(for user: User, page: Int = 1, completion: @escaping (Result<[Repository], Error>) -> Void) {
         let url = user.repositoriesURL
             .appendingQueryItem(name: "page", value: page.description)?
             .appendingQueryItem(name: "per_page", value: "\(repositoriesPerPage)")
         performRequest(with: url, completion: completion)
     }
     
-    func stargazers(for repository: Repository, page: UInt = 0, completion: @escaping (Result<[User], Error>) -> Void) {
+    func stargazers(for repository: Repository, page: Int = 1, completion: @escaping (Result<[User], Error>) -> Void) {
         let url = repository.stargazersURL
             .appendingQueryItem(name: "page", value: page.description)?
             .appendingQueryItem(name: "per_page", value: "\(stargazersPerPage)")

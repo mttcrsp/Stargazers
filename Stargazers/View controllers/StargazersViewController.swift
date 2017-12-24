@@ -7,14 +7,14 @@ import UIKit
 
 protocol StargazersViewControllerDataSource: class {
     var stargazers: [User] { get }
-    func loadMoreStargazers()
+    func loadMoreStargazers(for stargazersViewController: StargazersViewController)
 }
 
-final class StargazersViewController: UITableViewController { // Uses prefetching API
+final class StargazersViewController: UITableViewController {
     
     weak var dataSource: StargazersViewControllerDataSource?
     
-    var users: [User] {
+    var stargazers: [User] {
         return dataSource?.stargazers ?? []
     }
     
@@ -28,13 +28,17 @@ final class StargazersViewController: UITableViewController { // Uses prefetchin
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return users.count
+        return stargazers.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: UserTableViewCell.reuseIdentifier, for: indexPath) as! UserTableViewCell
         cell.selectionStyle = .none
-        cell.configure(with: users[indexPath.row])
+        cell.configure(with: stargazers[indexPath.row])
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.row == stargazers.count - 1 { dataSource?.loadMoreStargazers(for: self) }
     }
 }

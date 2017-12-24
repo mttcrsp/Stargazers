@@ -7,7 +7,7 @@ import UIKit
 
 protocol RepositoriesViewControllerDataSource: class {
     var repositories: [Repository] { get }
-    func loadMoreRepositories()
+    func loadMoreRepositories(for repositoriesViewController: RepositoriesViewController)
 }
 
 protocol RepositoriesViewControllerDelegate: class {
@@ -45,5 +45,11 @@ final class RepositoriesViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         delegate?.repositoriesViewController(self, didSelect: repositories[indexPath.row])
+    }
+    
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.row == repositories.count - 1 {
+            dataSource?.loadMoreRepositories(for: self)
+        }
     }
 }

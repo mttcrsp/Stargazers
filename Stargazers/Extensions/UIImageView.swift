@@ -6,5 +6,9 @@
 import UIKit
 
 extension UIImageView {
-    func setImage(from url: URL, placeholder: UIImage? = nil) {}
+    func configure(with avatarURL: URL, size: CGSize) {
+        image = UIImage.withSolidColor(.blue, size: size)
+        layer.cornerRadius = 2
+        layer.masksToBounds = true
+    }
 }

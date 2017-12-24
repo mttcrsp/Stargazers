@@ -6,8 +6,15 @@
 import UIKit
 
 final class UserTableViewCell: UITableViewCell {
+    
     func configure(with user: User) {
+        imageView?.configure(with: user.avatarURL, size: avatarSize)
         textLabel?.text = user.login
-        imageView?.setImage(from: user.avatarURL, placeholder: nil)
+    }
+    
+    private var avatarSize: CGSize {
+        let padding: CGFloat = 8
+        let height = bounds.height - (padding * 2)
+        return CGSize(width: height, height: height)
     }
 }

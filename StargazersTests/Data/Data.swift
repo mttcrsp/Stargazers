@@ -1,7 +1,4 @@
 //
-//  Data.swift
-//  StargazersTests
-//
 //  Created by Matteo Crespi on 25/12/2017.
 //  Copyright © 2017 Matteo Crespi. All rights reserved.
 //

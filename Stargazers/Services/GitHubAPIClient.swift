@@ -7,6 +7,10 @@ import Foundation
 
 struct GitHubAPIClient {
     
+    /// According to the documentation, the GitHub API pagination mechanism:
+    ///  1. supports a maximum of 100 results per page,
+    ///  2. all paginated queries start at page 1.
+    /// You can find out more at https://developer.github.com/v3/#pagination).
     struct RequestBuilder {
         
         private let baseURL: URL = "https://api.github.com"
@@ -15,6 +19,7 @@ struct GitHubAPIClient {
             let items: [User]
         }
         
+        /// https://developer.github.com/v3/search/#search-users
         func users(for query: String) -> Webservice.Request<[User]>? {
             guard let url = baseURL.appendingPathComponent("search")
                 .appendingPathComponent("users")
@@ -27,10 +32,8 @@ struct GitHubAPIClient {
             })
         }
         
-        // WARNING: The GitHub API supports a maximum of 100 results per page (https://developer.github.com/v3/#pagination)
-        
         func repositories(for user: User, page: Int, perPage: Int) -> Webservice.Request<[Repository]>? {
-            guard page >= 0, perPage > 0, perPage <= 100 else { return nil }
+            guard page > 0, perPage > 0, perPage <= 100 else { return nil }
             
             guard let url = user.repositoriesURL
                 .appendingQueryItem(name: "page", value: page.description)?
@@ -41,8 +44,9 @@ struct GitHubAPIClient {
             return Webservice.Request(url: url)
         }
         
+        /// https://developer.github.com/v3/activity/starring/#list-stargazers
         func stargazers(for repository: Repository, page: Int, perPage: Int) -> Webservice.Request<[User]>? {
-            guard page >= 0, perPage > 0, perPage <= 100 else { return nil }
+            guard page > 0, perPage > 0, perPage <= 100 else { return nil }
             
             guard let url = repository.stargazersURL
                 .appendingQueryItem(name: "page", value: page.description)?

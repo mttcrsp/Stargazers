@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension Error {
+extension Swift.Error {
     var isNoInternet: Bool {
         return (self as? URLError)?.code == .notConnectedToInternet
     }

@@ -5,105 +5,112 @@
 
 import Foundation
 
-final class GitHubAPIClient {
+struct Error: LocalizedError, Equatable {
     
-    enum Error: LocalizedError {
-        case invalidQuery
-        case networking
-        case noInternet
+    let errorDescription: String?
+    let failureReason: String?
+    let recoverySuggestion: String?
+    
+    static func ==(lhs: Error, rhs: Error) -> Bool {
+        return (
+            lhs.failureReason == rhs.failureReason &&
+            lhs.errorDescription == rhs.errorDescription &&
+            lhs.recoverySuggestion == rhs.recoverySuggestion
+        )
+    }
+}
+
+struct GitHubAPIClient {
+    
+    struct RequestBuilder {
         
-        var errorDescription: String? {
-            switch self {
-            case .invalidQuery: return NSLocalizedString("Invalid query", comment: "alert title")
-            case .networking: return NSLocalizedString("Network error", comment: "alert title")
-            case .noInternet: return NSLocalizedString("No Internet", comment: "alert title")
-            }
+        private let baseURL: URL = "https://api.github.com"
+        
+        private struct SearchUserResponse: Codable {
+            let items: [User]
         }
         
-        var failureReason: String? {
-            switch self {
-            case .invalidQuery: return NSLocalizedString("No search could be performed based on the query you entered.", comment: "alert message")
-            case .networking: return NSLocalizedString("Something went wrong while communicating with the GitHub servers.", comment: "alert message")
-            case .noInternet: return NSLocalizedString("Seems like you are currently offline.", comment: "alert message")
+        func users(for query: String) -> Webservice.Request<[User]>? {
+            guard let url = baseURL.appendingPathComponent("search")
+                .appendingPathComponent("users")
+                .appendingQueryItem(name: "q", value: query) else {
+                    return nil
             }
+            
+            return Webservice.Request(url: url, decode: { data in
+                try JSONDecoder().decode(SearchUserResponse.self, from: data).items
+            })
         }
         
-        var recoverySuggestion: String? {
-            switch self {
-            case .invalidQuery: return NSLocalizedString("Try removing special characters and performing another search.", comment: "alert message")
-            case .networking: return NSLocalizedString("Please, try again later.", comment: "alert message")
-            case .noInternet: return NSLocalizedString("Check your internet connection, then try again.", comment: "alert message")
+        // WARNING: The GitHub API supports a maximum of 100 results per page (https://developer.github.com/v3/#pagination)
+        
+        func repositories(for user: User, page: Int, perPage: Int) -> Webservice.Request<[Repository]>? {
+            guard page >= 0, perPage > 0, perPage <= 100 else { return nil }
+            
+            guard let url = user.repositoriesURL
+                .appendingQueryItem(name: "page", value: page.description)?
+                .appendingQueryItem(name: "per_page", value: "\(perPage)") else {
+                    return nil
             }
+            
+            return Webservice.Request(url: url)
+        }
+        
+        func stargazers(for repository: Repository, page: Int, perPage: Int) -> Webservice.Request<[User]>? {
+            guard page >= 0, perPage > 0, perPage <= 100 else { return nil }
+            
+            guard let url = repository.stargazersURL
+                .appendingQueryItem(name: "page", value: page.description)?
+                .appendingQueryItem(name: "per_page", value: "\(perPage)") else {
+                    return nil
+            }
+            
+            return Webservice.Request(url: url)
         }
     }
     
-    struct SearchUserResponse: Codable {
-        let items: [User]
-    }
-    
-    // WARNING: The GitHub API supports a maximum of 100 results per page (https://developer.github.com/v3/#pagination)
-    var stargazersPerPage: Int = 100 { didSet { assert(stargazersPerPage > 0 && stargazersPerPage <= 100) } }
-    var repositoriesPerPage: Int = 50  { didSet { assert(repositoriesPerPage > 0 && repositoriesPerPage <= 100) } }
-    
-    private let baseURL: URL = "https://api.github.com"
     private let callbackQueue: DispatchQueue
-    private let session: URLSession
+    private let webservice: Webservice
     
-    init(session: URLSession = .shared, callbackQueue: DispatchQueue = .main) {
-        self.session = session
+    init(webservice: Webservice = Webservice(), callbackQueue: DispatchQueue = .main) {
+        self.webservice = webservice
         self.callbackQueue = callbackQueue
     }
     
-    func users(for query: String, completion: @escaping (Result<SearchUserResponse, Error>) -> Void) {
-        let searchURL = baseURL.appendingPathComponent("search")
-        let searchUserURL = searchURL.appendingPathComponent("users")
-        let url = searchUserURL.appendingQueryItem(name: "q", value: query)
-        performRequest(with: url, completion: completion)
+    func users(for query: String, completion: @escaping (Result<[User], Error>) -> Void) {
+        performRequest(RequestBuilder().users(for: query), completion: completion)
     }
     
-    func repositories(for user: User, page: Int = 1, completion: @escaping (Result<[Repository], Error>) -> Void) {
-        let url = user.repositoriesURL
-            .appendingQueryItem(name: "page", value: page.description)?
-            .appendingQueryItem(name: "per_page", value: "\(repositoriesPerPage)")
-        performRequest(with: url, completion: completion)
+    func repositories(for user: User, page: Int = 1, perPage: Int, completion: @escaping (Result<[Repository], Error>) -> Void) {
+        performRequest(RequestBuilder().repositories(for: user, page: page, perPage: perPage), completion: completion)
     }
     
-    func stargazers(for repository: Repository, page: Int = 1, completion: @escaping (Result<[User], Error>) -> Void) {
-        let url = repository.stargazersURL
-            .appendingQueryItem(name: "page", value: page.description)?
-            .appendingQueryItem(name: "per_page", value: "\(stargazersPerPage)")
-        performRequest(with: url, completion: completion)
+    func stargazers(for repository: Repository, page: Int = 1, perPage: Int, completion: @escaping (Result<[User], Error>) -> Void) {
+        performRequest(RequestBuilder().stargazers(for: repository, page: page, perPage: perPage), completion: completion)
     }
     
-    private func performRequest<T: Codable>(with url: URL?, completion: @escaping (Result<T, Error>) -> Void) {
-        guard let url = url else {
-            return onCallbackQueue { completion(.failure(.networking)) }
+    private func performRequest<Value>(_ request: Webservice.Request<Value>?, completion: @escaping (Result<Value, Error>) -> Void) {
+        guard let request = request else {
+            return onCallbackQueue {
+                completion(.failure(.invalidAPIRequest))
+            }
         }
         
-        session.dataTask(with: url) { [weak self] data, _, error in
-            guard let `self` = self else { return }
-            
-            let result: Result<T, Error>
-            
-            switch (data, error) {
-            case (let data?, nil):
-                do {
-                    let value = try JSONDecoder().decode(T.self, from: data)
-                    result = .success(value)
-                } catch {
-                    result = .failure(.networking)
-                }
-            case (nil, let error?) where error.isNoInternet:
-                result = .failure(.noInternet)
-            default:
-                result = .failure(.networking)
-            }
-            
+        webservice.load(request) { result in
             self.onCallbackQueue { completion(result) }
-        }.resume()
+        }
     }
     
     private func onCallbackQueue(_ block: @escaping () -> Void) {
         callbackQueue.async(execute: block)
+    }
+}
+
+extension Error {
+    static var invalidAPIRequest: Error {
+        let errorDescription = NSLocalizedString("Network error", comment: "alert title")
+        let failureReason = NSLocalizedString("Something went wrong while communicating with our servers.", comment: "alert message")
+        let recoverySuggestion = NSLocalizedString("Please, try again later.", comment: "alert message")
+        return Error(errorDescription: errorDescription, failureReason: failureReason, recoverySuggestion: recoverySuggestion)
     }
 }

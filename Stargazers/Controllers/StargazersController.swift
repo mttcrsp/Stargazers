@@ -31,15 +31,15 @@ final class StargazersController: NSObject {
     
     private weak var usersViewController: UsersViewController?
     
-    // WARNING: The GitHub API page numbering is 1-based. (https://developer.github.com/v3/#pagination)
-    private var currentStargazersPage: Int { return stargazers.count / gitHubClient.stargazersPerPage }
-    private var currentRepositoriesPage: Int { return repositories.count / gitHubClient.repositoriesPerPage }
-    
-    private var allStargazersLoaded = false
-    private var allRepositoriesLoaded = false
+    private var stargazersPerPage = 100
+    private var repositoriesPerPage = 50
+    private var currentStargazersPage: Int { return stargazers.count / stargazersPerPage }
+    private var currentRepositoriesPage: Int { return repositories.count / repositoriesPerPage }
     
     private var isLoadingStargazers = false
     private var isLoadingRepositories = false
+    private var allStargazersLoaded = false
+    private var allRepositoriesLoaded = false
     
     private let searchController = UISearchController(searchResultsController: nil)
     
@@ -81,8 +81,8 @@ final class StargazersController: NSObject {
             guard let `self` = self else { return }
             
             switch result {
-            case .success(let response):
-                self.users = response.items
+            case .success(let users):
+                self.users = users
                 self.usersViewController?.reloadData()
             case .failure(let error):
                 self.usersViewController?.display(error)
@@ -94,7 +94,7 @@ final class StargazersController: NSObject {
         guard let user = selectedUser, !isLoadingRepositories, !allRepositoriesLoaded else { return }
         
         isLoadingRepositories = true
-        gitHubClient.repositories(for: user, page: currentRepositoriesPage + 1) { [weak self, weak repositoriesViewController] response in
+        gitHubClient.repositories(for: user, page: currentRepositoriesPage + 1, perPage: repositoriesPerPage) { [weak self, weak repositoriesViewController] response in
             guard let `self` = self, let repositoriesViewController = repositoriesViewController else { return }
             
             defer { self.isLoadingRepositories = false }
@@ -103,7 +103,7 @@ final class StargazersController: NSObject {
             case .failure(let error):
                 repositoriesViewController.display(error)
             case .success(let repositories):
-                self.allRepositoriesLoaded = repositories.count < self.gitHubClient.repositoriesPerPage
+                self.allRepositoriesLoaded = repositories.count < self.repositoriesPerPage
                 self.repositories.append(contentsOf: repositories)
                 repositoriesViewController.reloadData()
             }
@@ -114,7 +114,7 @@ final class StargazersController: NSObject {
         guard let repository = selectedRepository, !isLoadingStargazers, !allStargazersLoaded else { return }
         
         isLoadingStargazers = true
-        gitHubClient.stargazers(for: repository, page: currentStargazersPage + 1) { [weak self, weak stargazersViewController] response in
+        gitHubClient.stargazers(for: repository, page: currentStargazersPage + 1, perPage: stargazersPerPage) { [weak self, weak stargazersViewController] response in
             guard let `self` = self, let stargazersViewController = stargazersViewController else { return }
             
             defer { self.isLoadingStargazers = false }
@@ -123,7 +123,7 @@ final class StargazersController: NSObject {
             case .failure(let error):
                 stargazersViewController.display(error)
             case .success(let stargazers):
-                self.allStargazersLoaded = stargazers.count < self.gitHubClient.stargazersPerPage
+                self.allStargazersLoaded = stargazers.count < self.stargazersPerPage
                 self.stargazers.append(contentsOf: stargazers)
                 stargazersViewController.reloadData()
             }
@@ -143,7 +143,7 @@ extension StargazersController: UsersViewControllerDataSource, UsersViewControll
     
     func usersViewController(_ usersViewController: UsersViewController, didSelect user: User) {
         limiter.execute { [weak self, weak usersViewController] item in
-            self?.gitHubClient.repositories(for: user) { result in
+            self?.gitHubClient.repositories(for: user, perPage: 50) { result in
                 guard let `self` = self, let usersViewController = usersViewController, !item.isCancelled else { return }
                 
                 switch result {
@@ -159,7 +159,7 @@ extension StargazersController: UsersViewControllerDataSource, UsersViewControll
                     
                     self.selectedUser = user
                     self.repositories = repositories
-                    self.allRepositoriesLoaded = repositories.count < self.gitHubClient.repositoriesPerPage
+                    self.allRepositoriesLoaded = repositories.count < self.repositoriesPerPage
                 }
             }
         }
@@ -169,8 +169,9 @@ extension StargazersController: UsersViewControllerDataSource, UsersViewControll
 extension StargazersController: RepositoriesViewControllerDataSource, RepositoriesViewControllerDelegate {
     
     func repositoriesViewController(_ repositoriesViewController: RepositoriesViewController, didSelect repository: Repository) {
+        let perPage = stargazersPerPage
         limiter.execute { [weak self, weak repositoriesViewController] item in
-            self?.gitHubClient.stargazers(for: repository) { result in
+            self?.gitHubClient.stargazers(for: repository, perPage: perPage) { result in
                 guard let `self` = self, let repositoriesViewController = repositoriesViewController, !item.isCancelled else { return }
                 
                 switch result {
@@ -184,7 +185,7 @@ extension StargazersController: RepositoriesViewControllerDataSource, Repositori
                     
                     self.selectedRepository = repository
                     self.stargazers = stargazers
-                    self.allStargazersLoaded = stargazers.count < self.gitHubClient.stargazersPerPage
+                    self.allStargazersLoaded = stargazers.count < self.stargazersPerPage
                 }
             }
         }

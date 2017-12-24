@@ -29,6 +29,7 @@
 		E3C9FE121FEFBE0600182B8E /* Limiter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C9FE111FEFBE0600182B8E /* Limiter.swift */; };
 		E3C9FE141FEFC82700182B8E /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C9FE131FEFC82700182B8E /* UIImage.swift */; };
 		E3C9FE1A1FF00AA000182B8E /* UITableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C9FE191FF00AA000182B8E /* UITableView.swift */; };
+		E3C9FE201FF036B700182B8E /* Webservice.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C9FE1F1FF036B700182B8E /* Webservice.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -56,6 +57,7 @@
 		E3C9FE111FEFBE0600182B8E /* Limiter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Limiter.swift; sourceTree = "<group>"; };
 		E3C9FE131FEFC82700182B8E /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
 		E3C9FE191FF00AA000182B8E /* UITableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableView.swift; sourceTree = "<group>"; };
+		E3C9FE1F1FF036B700182B8E /* Webservice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Webservice.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -149,6 +151,7 @@
 			isa = PBXGroup;
 			children = (
 				E3C9FDFF1FEE49FB00182B8E /* GitHubAPIClient.swift */,
+				E3C9FE1F1FF036B700182B8E /* Webservice.swift */,
 				E3C9FE061FEE4AA400182B8E /* Throttler.swift */,
 				E3C9FE111FEFBE0600182B8E /* Limiter.swift */,
 			);
@@ -242,6 +245,7 @@
 				E3C9FE021FEE4A2500182B8E /* URL.swift in Sources */,
 				E3C9FDFB1FEE493800182B8E /* UITableViewCell.swift in Sources */,
 				E3C9FDFD1FEE495200182B8E /* UIImageView.swift in Sources */,
+				E3C9FE201FF036B700182B8E /* Webservice.swift in Sources */,
 				E3C9FE0B1FEE4C1300182B8E /* UIViewController.swift in Sources */,
 				E3C9FDF61FEE48CC00182B8E /* UserTableViewCell.swift in Sources */,
 				E3C9FE001FEE49FB00182B8E /* GitHubAPIClient.swift in Sources */,

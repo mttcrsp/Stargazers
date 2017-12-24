@@ -5,21 +5,6 @@
 
 import Foundation
 
-struct Error: LocalizedError, Equatable {
-    
-    let errorDescription: String?
-    let failureReason: String?
-    let recoverySuggestion: String?
-    
-    static func ==(lhs: Error, rhs: Error) -> Bool {
-        return (
-            lhs.failureReason == rhs.failureReason &&
-            lhs.errorDescription == rhs.errorDescription &&
-            lhs.recoverySuggestion == rhs.recoverySuggestion
-        )
-    }
-}
-
 struct GitHubAPIClient {
     
     struct RequestBuilder {

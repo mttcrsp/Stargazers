@@ -1,7 +1,4 @@
 //
-//  Paginator.swift
-//  Stargazers
-//
 //  Created by Matteo Crespi on 24/12/2017.
 //  Copyright © 2017 Matteo Crespi. All rights reserved.
 //

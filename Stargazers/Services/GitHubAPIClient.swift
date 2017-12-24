@@ -31,7 +31,8 @@ final class GitHubAPIClient {
         var recoverySuggestion: String? {
             switch self {
             case .invalidQuery: return NSLocalizedString("Try removing special characters and performing another search.", comment: "alert message")
-            case .networking, .noInternet: return NSLocalizedString("Check your internet connection, then try again.", comment: "alert message")
+            case .networking: return NSLocalizedString("Please, try again later.", comment: "alert message")
+            case .noInternet: return NSLocalizedString("Check your internet connection, then try again.", comment: "alert message")
             }
         }
     }

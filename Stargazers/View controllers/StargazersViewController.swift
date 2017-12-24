@@ -39,6 +39,8 @@ final class StargazersViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if indexPath.row == stargazers.count - 1 { dataSource?.loadMoreStargazers(for: self) }
+        if indexPath.row > stargazers.count - tableView.visibleIndexPathsCount {
+            dataSource?.loadMoreStargazers(for: self)
+        }
     }
 }

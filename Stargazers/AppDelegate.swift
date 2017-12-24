@@ -16,6 +16,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.rootViewController = stargazersController.initialViewController
         window?.makeKeyAndVisible()
+        
+        UIWindow.appearance().tintColor = .black
+        
         return true
     }
 }

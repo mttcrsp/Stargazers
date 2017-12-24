@@ -48,7 +48,7 @@ final class RepositoriesViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if indexPath.row == repositories.count - 1 {
+        if indexPath.row > repositories.count - tableView.visibleIndexPathsCount {
             dataSource?.loadMoreRepositories(for: self)
         }
     }

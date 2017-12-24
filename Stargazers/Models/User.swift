@@ -17,3 +17,9 @@ struct User: Codable {
     let avatarURL: URL
     let repositoriesURL: URL
 }
+
+extension User: Equatable {
+    static func ==(lhs: User, rhs: User) -> Bool {
+        return lhs.login == rhs.login
+    }
+}

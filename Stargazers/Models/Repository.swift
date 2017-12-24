@@ -17,3 +17,9 @@ struct Repository: Codable {
     let stargazersURL: URL
     let stargazersCount: Int
 }
+
+extension Repository: Equatable {
+    static func ==(lhs: Repository, rhs: Repository) -> Bool {
+        return lhs.stargazersURL == rhs.stargazersURL
+    }
+}

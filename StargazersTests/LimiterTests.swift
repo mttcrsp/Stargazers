@@ -29,7 +29,7 @@ class LimiterTests: XCTestCase {
         delay(by: 0.1) { subject.execute(second) }
         delay(by: 0.2) { subject.execute(third) }
         // THEN: it cancels first two and only the third one is completed
-        wait(for: [firstExpectation, secondExpectation, thirdExpectation], timeout: 1)
+        wait(for: [firstExpectation, secondExpectation, thirdExpectation], timeout: 2)
     }
     
     func testDoesNotLimitCorrectly() {

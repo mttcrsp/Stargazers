@@ -44,7 +44,7 @@
 		E3C9FE1A1FF00AA000182B8E /* UITableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C9FE191FF00AA000182B8E /* UITableView.swift */; };
 		E3C9FE201FF036B700182B8E /* Webservice.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C9FE1F1FF036B700182B8E /* Webservice.swift */; };
 		E3C9FE221FF05B7E00182B8E /* Paginator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C9FE211FF05B7E00182B8E /* Paginator.swift */; };
-		E3C9FE2A1FF068EC00182B8E /* GitHubAPIClientRequestsBuilderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C9FE291FF068EC00182B8E /* GitHubAPIClientRequestsBuilderTests.swift */; };
+		E3C9FE2A1FF068EC00182B8E /* GitHubAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C9FE291FF068EC00182B8E /* GitHubAPIClient.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -98,7 +98,7 @@
 		E3C9FE1F1FF036B700182B8E /* Webservice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Webservice.swift; sourceTree = "<group>"; };
 		E3C9FE211FF05B7E00182B8E /* Paginator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Paginator.swift; sourceTree = "<group>"; };
 		E3C9FE271FF068EC00182B8E /* StargazersTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StargazersTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		E3C9FE291FF068EC00182B8E /* GitHubAPIClientRequestsBuilderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubAPIClientRequestsBuilderTests.swift; sourceTree = "<group>"; };
+		E3C9FE291FF068EC00182B8E /* GitHubAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubAPIClient.swift; sourceTree = "<group>"; };
 		E3C9FE2B1FF068EC00182B8E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -262,7 +262,7 @@
 				E34621891FF104DD00FA3C7C /* Fakes */,
 				E34621821FF07F1B00FA3C7C /* Extensions */,
 				E3C9FE2B1FF068EC00182B8E /* Info.plist */,
-				E3C9FE291FF068EC00182B8E /* GitHubAPIClientRequestsBuilderTests.swift */,
+				E3C9FE291FF068EC00182B8E /* GitHubAPIClient.swift */,
 				E346217C1FF076FE00FA3C7C /* LimiterTests.swift */,
 				E34621781FF0747100FA3C7C /* RepositoryTests.swift */,
 				E34621831FF07F9D00FA3C7C /* ThrottlerTests.swift */,
@@ -411,7 +411,7 @@
 				E34621741FF0729100FA3C7C /* UserTests.swift in Sources */,
 				E346217F1FF07EFA00FA3C7C /* Data.swift in Sources */,
 				E34621841FF07F9D00FA3C7C /* ThrottlerTests.swift in Sources */,
-				E3C9FE2A1FF068EC00182B8E /* GitHubAPIClientRequestsBuilderTests.swift in Sources */,
+				E3C9FE2A1FF068EC00182B8E /* GitHubAPIClient.swift in Sources */,
 				E34621811FF07F0E00FA3C7C /* XCTestCase.swift in Sources */,
 				E371E2E01FF06DD70057D77B /* Mocks.swift in Sources */,
 				E34621791FF0747100FA3C7C /* RepositoryTests.swift in Sources */,

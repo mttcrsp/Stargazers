@@ -7,14 +7,13 @@
 import Stargazers
 import XCTest
 
-class GitHubAPIClientRequestsBuilderTests: XCTestCase {
-    
-    let subject = GitHubAPIClient.RequestBuilder()
+class GitHubAPIClientTests: XCTestCase {
     
     func testUsers() {
         // GIVEN: a valid query
         let query = "Subito-it"
         // WHEN: asked to build a request from it
+        let subject = GitHubAPIClient.RequestBuilder()
         let request = subject.users(for: query)
         // THEN: it correctly produces the appropriate URL
         XCTAssertEqual(request?.url, "https://api.github.com/search/users?q=Subito-it")
@@ -24,6 +23,7 @@ class GitHubAPIClientRequestsBuilderTests: XCTestCase {
         // GIVEN: a valid input for a repositories request
         let user: User = .subito, page = 4, perPage = 50
         // WHEN: asked to build a request from it
+        let subject = GitHubAPIClient.RequestBuilder()
         let request = subject.repositories(for: user, page: page, perPage: perPage)
         // THEN: it correctly produces the appropriate URL
         XCTAssertEqual(request?.url, "https://api.github.com/users/Subito-it/repos?page=4&per_page=50")
@@ -33,6 +33,7 @@ class GitHubAPIClientRequestsBuilderTests: XCTestCase {
         // GIVEN: a valid input for a stargazers request
         let repository: Repository = .sbtUITestTunnel, page = 1, perPage = 100
         // WHEN: asked to build a request from it
+        let subject = GitHubAPIClient.RequestBuilder()
         let request = subject.stargazers(for: repository, page: page, perPage: perPage)
         // THEN: it correctly produces the appropriate URL
         XCTAssertEqual(request?.url, "https://api.github.com/repos/Subito-it/SBTUITestTunnel/stargazers?page=1&per_page=100")
@@ -42,6 +43,7 @@ class GitHubAPIClientRequestsBuilderTests: XCTestCase {
         // GIVEN: an input that requires the page at index 0
         let user: User = .subito, page = 0, perPage = 50
         // WHEN: asked to build a request from it
+        let subject = GitHubAPIClient.RequestBuilder()
         let request = subject.repositories(for: user, page: page, perPage: perPage)
         // THEN: it does not produce a request from it
         XCTAssertNil(request)
@@ -51,6 +53,7 @@ class GitHubAPIClientRequestsBuilderTests: XCTestCase {
         // GIVEN: an input that requires more than 100 results per page
         let repository: Repository = .sbtUITestTunnel, page = 1, perPage = 110
         // WHEN: asked to build a request from it
+        let subject = GitHubAPIClient.RequestBuilder()
         let request = subject.stargazers(for: repository, page: page, perPage: perPage)
         // THEN: it does not produce a request from it
         XCTAssertNil(request)

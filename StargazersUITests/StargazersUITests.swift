@@ -28,11 +28,11 @@ class StargazersUITests: XCTestCase {
         app.tables.staticTexts["facebook"].tap()
         
         // Check that pagination works correctly in the repositories screen
-        for _ in 1...5 { app.tables.firstMatch.swipeUp() }
+        for _ in 1...6 { app.tables.firstMatch.swipeUp() }
         XCTAssertGreaterThan(app.tables.cells.count, 50)
         
         // Check that accessing stargazers works
-        app.tables.staticTexts["fbshipit"].tap()
+        app.tables.cells.staticTexts["fbshipit"].tap()
         
         // Check that pagination works correctly in the stargazers screen
         for _ in 1...10 { app.tables.firstMatch.swipeUp() }

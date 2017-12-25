@@ -20,6 +20,11 @@
 		E346218D1FF1071000FA3C7C /* WebserviceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E346218C1FF1071000FA3C7C /* WebserviceTests.swift */; };
 		E346218F1FF1847800FA3C7C /* PaginatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E346218E1FF1847800FA3C7C /* PaginatorTests.swift */; };
 		E34621971FF18EE100FA3C7C /* StargazersUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E34621961FF18EE100FA3C7C /* StargazersUITests.swift */; };
+		E34621A51FF19F3100FA3C7C /* Repos-1.json in Resources */ = {isa = PBXBuildFile; fileRef = E34621A01FF19F3100FA3C7C /* Repos-1.json */; };
+		E34621A61FF19F3100FA3C7C /* Users.json in Resources */ = {isa = PBXBuildFile; fileRef = E34621A11FF19F3100FA3C7C /* Users.json */; };
+		E34621A71FF19F3100FA3C7C /* Stargazers.json in Resources */ = {isa = PBXBuildFile; fileRef = E34621A21FF19F3100FA3C7C /* Stargazers.json */; };
+		E34621A81FF19F3100FA3C7C /* Repos-2.json in Resources */ = {isa = PBXBuildFile; fileRef = E34621A31FF19F3100FA3C7C /* Repos-2.json */; };
+		E34621A91FF19F3100FA3C7C /* Repos-3.json in Resources */ = {isa = PBXBuildFile; fileRef = E34621A41FF19F3100FA3C7C /* Repos-3.json */; };
 		E371E2DE1FF06A480057D77B /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = E371E2DD1FF06A480057D77B /* Error.swift */; };
 		E371E2E01FF06DD70057D77B /* Mocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = E371E2DF1FF06DD70057D77B /* Mocks.swift */; };
 		E3C9FDD61FEE465700182B8E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C9FDD51FEE465700182B8E /* AppDelegate.swift */; };
@@ -82,6 +87,11 @@
 		E34621941FF18EE100FA3C7C /* StargazersUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StargazersUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E34621961FF18EE100FA3C7C /* StargazersUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StargazersUITests.swift; sourceTree = "<group>"; };
 		E34621981FF18EE100FA3C7C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E34621A01FF19F3100FA3C7C /* Repos-1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "Repos-1.json"; sourceTree = "<group>"; };
+		E34621A11FF19F3100FA3C7C /* Users.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Users.json; sourceTree = "<group>"; };
+		E34621A21FF19F3100FA3C7C /* Stargazers.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Stargazers.json; sourceTree = "<group>"; };
+		E34621A31FF19F3100FA3C7C /* Repos-2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "Repos-2.json"; sourceTree = "<group>"; };
+		E34621A41FF19F3100FA3C7C /* Repos-3.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "Repos-3.json"; sourceTree = "<group>"; };
 		E371E2DD1FF06A480057D77B /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
 		E371E2DF1FF06DD70057D77B /* Mocks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mocks.swift; sourceTree = "<group>"; };
 		E3C9FDD21FEE465700182B8E /* Stargazers.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Stargazers.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -140,14 +150,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		E34621751FF072F000FA3C7C /* Mocks */ = {
+		E34621751FF072F000FA3C7C /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				E371E2DF1FF06DD70057D77B /* Mocks.swift */,
 				E34621761FF072FE00FA3C7C /* User.json */,
 				E346217A1FF074C500FA3C7C /* Repository.json */,
 			);
-			path = Mocks;
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		E34621821FF07F1B00FA3C7C /* Extensions */ = {
@@ -178,10 +187,23 @@
 		E34621951FF18EE100FA3C7C /* StargazersUITests */ = {
 			isa = PBXGroup;
 			children = (
-				E34621961FF18EE100FA3C7C /* StargazersUITests.swift */,
+				E34621AA1FF19F4500FA3C7C /* Resources */,
 				E34621981FF18EE100FA3C7C /* Info.plist */,
+				E34621961FF18EE100FA3C7C /* StargazersUITests.swift */,
 			);
 			path = StargazersUITests;
+			sourceTree = "<group>";
+		};
+		E34621AA1FF19F4500FA3C7C /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				E34621A01FF19F3100FA3C7C /* Repos-1.json */,
+				E34621A31FF19F3100FA3C7C /* Repos-2.json */,
+				E34621A41FF19F3100FA3C7C /* Repos-3.json */,
+				E34621A21FF19F3100FA3C7C /* Stargazers.json */,
+				E34621A11FF19F3100FA3C7C /* Users.json */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		E3C9FDC91FEE465700182B8E = {
@@ -289,10 +311,11 @@
 		E3C9FE281FF068EC00182B8E /* StargazersTests */ = {
 			isa = PBXGroup;
 			children = (
-				E34621751FF072F000FA3C7C /* Mocks */,
+				E34621751FF072F000FA3C7C /* Resources */,
 				E34621891FF104DD00FA3C7C /* Fakes */,
 				E34621821FF07F1B00FA3C7C /* Extensions */,
 				E3C9FE2B1FF068EC00182B8E /* Info.plist */,
+				E371E2DF1FF06DD70057D77B /* Mocks.swift */,
 				E3C9FE291FF068EC00182B8E /* GitHubAPIClient.swift */,
 				E346218E1FF1847800FA3C7C /* PaginatorTests.swift */,
 				E346217C1FF076FE00FA3C7C /* LimiterTests.swift */,
@@ -411,6 +434,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E34621A61FF19F3100FA3C7C /* Users.json in Resources */,
+				E34621A71FF19F3100FA3C7C /* Stargazers.json in Resources */,
+				E34621A81FF19F3100FA3C7C /* Repos-2.json in Resources */,
+				E34621A91FF19F3100FA3C7C /* Repos-3.json in Resources */,
+				E34621A51FF19F3100FA3C7C /* Repos-1.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -97,8 +97,11 @@ final class StargazersController: NSObject {
 extension StargazersController: UISearchResultsUpdating {
     
     func updateSearchResults(for searchController: UISearchController) {
-        query = searchController.searchBar.text ?? ""
-        searchThrottler?.execute()
+        let newQuery = searchController.searchBar.text ?? ""
+        if query != newQuery {
+            query = newQuery
+            searchThrottler?.execute()
+        }
     }
 }
 

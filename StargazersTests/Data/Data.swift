@@ -18,11 +18,3 @@ extension Repository {
         return Repository(name: "SBTUITestTunnel", stargazersURL: "https://api.github.com/repos/Subito-it/SBTUITestTunnel/stargazers", stargazersCount: 73)
     }
 }
-
-extension Data {
-    init(forResource resource: String, withExtension extension: String) {
-        let bundle = Bundle(for: RepositoryTests.self)
-        let url = bundle.url(forResource: resource, withExtension: `extension`)!
-        try! self.init(contentsOf: url)
-    }
-}

@@ -42,14 +42,20 @@ final class StargazersController: NSObject {
         let usersViewController = UsersViewController()
         usersViewController.delegate = self
         usersViewController.dataSource = self
-        usersViewController.navigationItem.hidesSearchBarWhenScrolling = false
-        usersViewController.navigationItem.searchController = searchController
         usersViewController.definesPresentationContext = true
         
         self.usersViewController = usersViewController
         
         let navigationController = usersViewController.embeddedInNavigationController
-        navigationController.navigationBar.prefersLargeTitles = true
+        
+        if #available(iOS 11.0, *) {
+            navigationController.navigationBar.prefersLargeTitles = true
+            usersViewController.navigationItem.searchController = searchController
+            usersViewController.navigationItem.hidesSearchBarWhenScrolling = false
+        } else {
+            usersViewController.tableView.tableHeaderView = searchController.searchBar
+        }
+        
         return navigationController
     }
     
@@ -115,7 +121,11 @@ extension StargazersController: UsersViewControllerDataSource, UsersViewControll
                 repositoriesViewController.delegate = self
                 repositoriesViewController.dataSource = self
                 repositoriesViewController.title = user.login
-                repositoriesViewController.navigationItem.largeTitleDisplayMode = .never
+                
+                if #available(iOS 11.0, *) {
+                    repositoriesViewController.navigationItem.largeTitleDisplayMode = .never
+                }
+                
                 usersViewController.show(repositoriesViewController, sender: usersViewController)
             }
             

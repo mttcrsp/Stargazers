@@ -11,9 +11,9 @@ class LimiterTests: XCTestCase {
     
     func testLimitsCorrectly() {
         // GIVEN: three blocks
-        let firstExpectation = self.expectation(description: "first")
-        let secondExpectation = self.expectation(description: "second")
-        let thirdExpectation = self.expectation(description: "third")
+        let firstExpectation  = self.expectation(description: "first block content was not performed")
+        let secondExpectation = self.expectation(description: "second block content was not performed")
+        let thirdExpectation  = self.expectation(description: "third block content was not performed")
         let first: (DispatchWorkItem) -> Void = { item in
             self.delay(by: 0.2) { XCTAssertTrue(item.isCancelled) ; firstExpectation.fulfill() }
         }
@@ -29,13 +29,13 @@ class LimiterTests: XCTestCase {
         delay(by: 0.1) { subject.execute(second) }
         delay(by: 0.2) { subject.execute(third) }
         // THEN: it cancels first two and only the third one is completed
-        wait(for: [firstExpectation, secondExpectation, thirdExpectation], timeout: 5)
+        wait(for: [firstExpectation, secondExpectation, thirdExpectation], timeout: 1)
     }
     
     func testDoesNotLimitCorrectly() {
-        // GIVEN: Two block
-        let firstExpectation = self.expectation(description: #function)
-        let secondExpectation = self.expectation(description: #function)
+        // GIVEN: Two blocks
+        let firstExpectation  = self.expectation(description: "first block content was not performed")
+        let secondExpectation = self.expectation(description: "second block content was not performed")
         let first: (DispatchWorkItem) -> Void = { item in
             self.delay(by: 0.05) { XCTAssertFalse(item.isCancelled) ; firstExpectation.fulfill() }
         }
@@ -47,6 +47,6 @@ class LimiterTests: XCTestCase {
         subject.execute(first)
         delay(by: 0.1) { subject.execute(second) }
         // THEN: it does not cancel either of them
-        wait(for: [firstExpectation, secondExpectation], timeout: 0.3)
+        wait(for: [firstExpectation, secondExpectation], timeout: 1)
     }
 }

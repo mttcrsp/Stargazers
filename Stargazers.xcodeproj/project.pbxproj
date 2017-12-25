@@ -25,6 +25,8 @@
 		E34621A71FF19F3100FA3C7C /* Stargazers.json in Resources */ = {isa = PBXBuildFile; fileRef = E34621A21FF19F3100FA3C7C /* Stargazers.json */; };
 		E34621A81FF19F3100FA3C7C /* Repos-2.json in Resources */ = {isa = PBXBuildFile; fileRef = E34621A31FF19F3100FA3C7C /* Repos-2.json */; };
 		E34621A91FF19F3100FA3C7C /* Repos-3.json in Resources */ = {isa = PBXBuildFile; fileRef = E34621A41FF19F3100FA3C7C /* Repos-3.json */; };
+		E34621AE1FF1A30B00FA3C7C /* PINCache.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E34621AC1FF1A30B00FA3C7C /* PINCache.framework */; };
+		E34621AF1FF1A30B00FA3C7C /* PINRemoteImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E34621AD1FF1A30B00FA3C7C /* PINRemoteImage.framework */; };
 		E371E2DE1FF06A480057D77B /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = E371E2DD1FF06A480057D77B /* Error.swift */; };
 		E371E2E01FF06DD70057D77B /* Mocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = E371E2DF1FF06DD70057D77B /* Mocks.swift */; };
 		E3C9FDD61FEE465700182B8E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C9FDD51FEE465700182B8E /* AppDelegate.swift */; };
@@ -92,6 +94,8 @@
 		E34621A21FF19F3100FA3C7C /* Stargazers.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Stargazers.json; sourceTree = "<group>"; };
 		E34621A31FF19F3100FA3C7C /* Repos-2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "Repos-2.json"; sourceTree = "<group>"; };
 		E34621A41FF19F3100FA3C7C /* Repos-3.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "Repos-3.json"; sourceTree = "<group>"; };
+		E34621AC1FF1A30B00FA3C7C /* PINCache.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PINCache.framework; path = Carthage/Build/iOS/PINCache.framework; sourceTree = "<group>"; };
+		E34621AD1FF1A30B00FA3C7C /* PINRemoteImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PINRemoteImage.framework; path = Carthage/Build/iOS/PINRemoteImage.framework; sourceTree = "<group>"; };
 		E371E2DD1FF06A480057D77B /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
 		E371E2DF1FF06DD70057D77B /* Mocks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mocks.swift; sourceTree = "<group>"; };
 		E3C9FDD21FEE465700182B8E /* Stargazers.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Stargazers.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -137,6 +141,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E34621AE1FF1A30B00FA3C7C /* PINCache.framework in Frameworks */,
+				E34621AF1FF1A30B00FA3C7C /* PINRemoteImage.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -206,6 +212,15 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
+		E34621AB1FF1A30A00FA3C7C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E34621AC1FF1A30B00FA3C7C /* PINCache.framework */,
+				E34621AD1FF1A30B00FA3C7C /* PINRemoteImage.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		E3C9FDC91FEE465700182B8E = {
 			isa = PBXGroup;
 			children = (
@@ -213,6 +228,7 @@
 				E3C9FE281FF068EC00182B8E /* StargazersTests */,
 				E34621951FF18EE100FA3C7C /* StargazersUITests */,
 				E3C9FDD31FEE465700182B8E /* Products */,
+				E34621AB1FF1A30A00FA3C7C /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -355,6 +371,7 @@
 				E3C9FDCE1FEE465700182B8E /* Sources */,
 				E3C9FDCF1FEE465700182B8E /* Frameworks */,
 				E3C9FDD01FEE465700182B8E /* Resources */,
+				E34621B01FF1A34A00FA3C7C /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -461,6 +478,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		E34621B01FF1A34A00FA3C7C /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/iOS/PINRemoteImage.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/PINCache.framework",
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		E34621901FF18EE100FA3C7C /* Sources */ = {
@@ -688,6 +723,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3CM92FF2C5;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = Stargazers/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -704,6 +743,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3CM92FF2C5;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = Stargazers/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

@@ -10,35 +10,43 @@ final class StargazersController: NSObject {
     private (set) var query = ""
     private (set) var users: [User] = []
     
-    var stargazers: [User] { return stargazersPaginator?.values ?? [] }
-    var repositories: [Repository] { return repositoriesPaginator?.values ?? [] }
-    
     private var stargazersPaginator: Paginator<User>?
     private var repositoriesPaginator: Paginator<Repository>?
     
     private weak var usersViewController: UsersViewController?
     
-    private let searchController = UISearchController(searchResultsController: nil)
-    private var searchThrottler: Throttler?
+    private lazy var searchController: UISearchController = {
+        let searchController = UISearchController(searchResultsController: nil)
+        searchController.searchResultsUpdater = self
+        searchController.dimsBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = NSLocalizedString("Search user", comment: "Users search bar placeholder")
+        return searchController
+    }()
+    
+    private lazy var searchThrottler: Throttler = {
+        return Throttler(limit: 0.5) { [weak self] in
+            guard let `self` = self, !self.query.isEmpty else { return }
+            
+            self.gitHubClient.users(for: self.query) { [weak self] result in
+                switch result {
+                case .success(let users):
+                    self?.users = users
+                    self?.usersViewController?.reloadData()
+                case .failure(let error):
+                    self?.usersViewController?.display(error)
+                }
+            }
+        }
+    }()
     
     private let interactionLimiter = Limiter()
     private var gitHubClient: GitHubAPIClient
     
     init(session: URLSessionType = URLSession.shared) {
         self.gitHubClient = GitHubAPIClient(session: session)
-        
-        super.init()
-        
-        searchController.searchResultsUpdater = self
-        searchController.dimsBackgroundDuringPresentation = false
-        searchController.searchBar.placeholder = NSLocalizedString("Search user", comment: "Users search bar placeholder")
-        
-        searchThrottler = Throttler(limit: 0.5) { [weak self] in
-            if let `self` = self, !self.query.isEmpty { self.performSearch(self.query) }
-        }
     }
     
-    var initialViewController: UIViewController {
+    func startFlow(from window: UIWindow) {
         let usersViewController = UsersViewController()
         usersViewController.delegate = self
         usersViewController.dataSource = self
@@ -46,7 +54,7 @@ final class StargazersController: NSObject {
         
         self.usersViewController = usersViewController
         
-        let navigationController = usersViewController.embeddedInNavigationController
+        let navigationController = UINavigationController(rootViewController: usersViewController)
         
         if #available(iOS 11.0, *) {
             navigationController.navigationBar.prefersLargeTitles = true
@@ -56,21 +64,7 @@ final class StargazersController: NSObject {
             usersViewController.tableView.tableHeaderView = searchController.searchBar
         }
         
-        return navigationController
-    }
-    
-    func performSearch(_ query: String) {
-        gitHubClient.users(for: query) { [weak self] result in
-            guard let `self` = self else { return }
-            
-            switch result {
-            case .success(let users):
-                self.users = users
-                self.usersViewController?.reloadData()
-            case .failure(let error):
-                self.usersViewController?.display(error)
-            }
-        }
+        window.rootViewController = navigationController
     }
     
     func loadMoreRepositories(for repositoriesViewController: RepositoriesViewController) {
@@ -100,7 +94,7 @@ extension StargazersController: UISearchResultsUpdating {
         let newQuery = searchController.searchBar.text ?? ""
         if query != newQuery {
             query = newQuery
-            searchThrottler?.execute()
+            searchThrottler.execute()
         }
     }
 }
@@ -139,6 +133,8 @@ extension StargazersController: UsersViewControllerDataSource, UsersViewControll
 
 extension StargazersController: RepositoriesViewControllerDataSource, RepositoriesViewControllerDelegate {
     
+    var repositories: [Repository] { return repositoriesPaginator?.values ?? [] }
+    
     func repositoriesViewController(_ repositoriesViewController: RepositoriesViewController, didSelect repository: Repository) {
         interactionLimiter.execute { [weak self, weak repositoriesViewController] item in
             let paginator = Paginator(size: 100, block: { page, perPage, completion in
@@ -163,4 +159,6 @@ extension StargazersController: RepositoriesViewControllerDataSource, Repositori
     }
 }
 
-extension StargazersController: StargazersViewControllerDataSource {}
+extension StargazersController: StargazersViewControllerDataSource {
+    var stargazers: [User] { return stargazersPaginator?.values ?? [] }
+}

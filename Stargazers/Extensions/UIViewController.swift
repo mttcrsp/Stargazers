@@ -7,10 +7,6 @@ import UIKit
 
 extension UIViewController {
     
-    var embeddedInNavigationController: UINavigationController {
-        return UINavigationController(rootViewController: self)
-    }
-    
     func display(_ error: LocalizedError) {
         let errorDescription = error.errorDescription ?? NSLocalizedString("Ops!", comment: "default alert title for errors")
         let failureReason = error.failureReason ?? NSLocalizedString("An unknown error occurred.", comment: "default failure reason displayed in within alerts")

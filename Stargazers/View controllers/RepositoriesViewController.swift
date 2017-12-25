@@ -25,6 +25,8 @@ final class RepositoriesViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.estimatedRowHeight = 56
+        tableView.rowHeight = UITableViewAutomaticDimension
         tableView.register(RepositoryTableViewCell.self, forCellReuseIdentifier: RepositoryTableViewCell.reuseIdentifier)
     }
     
@@ -38,13 +40,17 @@ final class RepositoriesViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: RepositoryTableViewCell.reuseIdentifier, for: indexPath) as! RepositoryTableViewCell
-        cell.accessoryType = .disclosureIndicator
-        cell.configure(with: repositories[indexPath.row])
+        let repository = repositories[indexPath.row]
+        cell.accessoryType = repository.hasStargazers ? .disclosureIndicator : .none
+        cell.selectionStyle = repository.hasStargazers ? .default : .none
+        cell.configure(with: repository)
         return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        delegate?.repositoriesViewController(self, didSelect: repositories[indexPath.row])
+        if repositories[indexPath.row].hasStargazers {
+            delegate?.repositoriesViewController(self, didSelect: repositories[indexPath.row])
+        }
     }
     
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {

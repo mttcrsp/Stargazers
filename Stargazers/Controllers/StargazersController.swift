@@ -24,8 +24,8 @@ final class StargazersController: NSObject {
     private let interactionLimiter = Limiter()
     private var gitHubClient: GitHubAPIClient
     
-    init(gitHubClient: GitHubAPIClient = GitHubAPIClient()) {
-        self.gitHubClient = gitHubClient
+    init(session: URLSessionType = URLSession.shared) {
+        self.gitHubClient = GitHubAPIClient(session: session)
         
         super.init()
         

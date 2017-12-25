@@ -18,6 +18,7 @@
 		E34621881FF0FF8800FA3C7C /* URLSessionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E34621871FF0FF8800FA3C7C /* URLSessionType.swift */; };
 		E346218B1FF104F000FA3C7C /* URLSessionFake.swift in Sources */ = {isa = PBXBuildFile; fileRef = E346218A1FF104F000FA3C7C /* URLSessionFake.swift */; };
 		E346218D1FF1071000FA3C7C /* WebserviceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E346218C1FF1071000FA3C7C /* WebserviceTests.swift */; };
+		E346218F1FF1847800FA3C7C /* PaginatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E346218E1FF1847800FA3C7C /* PaginatorTests.swift */; };
 		E371E2DE1FF06A480057D77B /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = E371E2DD1FF06A480057D77B /* Error.swift */; };
 		E371E2E01FF06DD70057D77B /* Mocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = E371E2DF1FF06DD70057D77B /* Mocks.swift */; };
 		E3C9FDD61FEE465700182B8E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C9FDD51FEE465700182B8E /* AppDelegate.swift */; };
@@ -69,6 +70,7 @@
 		E34621871FF0FF8800FA3C7C /* URLSessionType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionType.swift; sourceTree = "<group>"; };
 		E346218A1FF104F000FA3C7C /* URLSessionFake.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionFake.swift; sourceTree = "<group>"; };
 		E346218C1FF1071000FA3C7C /* WebserviceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebserviceTests.swift; sourceTree = "<group>"; };
+		E346218E1FF1847800FA3C7C /* PaginatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaginatorTests.swift; sourceTree = "<group>"; };
 		E371E2DD1FF06A480057D77B /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
 		E371E2DF1FF06DD70057D77B /* Mocks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mocks.swift; sourceTree = "<group>"; };
 		E3C9FDD21FEE465700182B8E /* Stargazers.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Stargazers.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -263,6 +265,7 @@
 				E34621821FF07F1B00FA3C7C /* Extensions */,
 				E3C9FE2B1FF068EC00182B8E /* Info.plist */,
 				E3C9FE291FF068EC00182B8E /* GitHubAPIClient.swift */,
+				E346218E1FF1847800FA3C7C /* PaginatorTests.swift */,
 				E346217C1FF076FE00FA3C7C /* LimiterTests.swift */,
 				E34621781FF0747100FA3C7C /* RepositoryTests.swift */,
 				E34621831FF07F9D00FA3C7C /* ThrottlerTests.swift */,
@@ -409,6 +412,7 @@
 			files = (
 				E346218D1FF1071000FA3C7C /* WebserviceTests.swift in Sources */,
 				E34621741FF0729100FA3C7C /* UserTests.swift in Sources */,
+				E346218F1FF1847800FA3C7C /* PaginatorTests.swift in Sources */,
 				E346217F1FF07EFA00FA3C7C /* Data.swift in Sources */,
 				E34621841FF07F9D00FA3C7C /* ThrottlerTests.swift in Sources */,
 				E3C9FE2A1FF068EC00182B8E /* GitHubAPIClient.swift in Sources */,

@@ -12,16 +12,16 @@ struct Webservice {
         let decode: (Data) throws -> Value
     }
     
-    let session: URLSession
+    let session: URLSessionType
     let callbackQueue: DispatchQueue
     
-    init(session: URLSession = .shared, callbackQueue: DispatchQueue = .main) {
+    init(session: URLSessionType = URLSession.shared, callbackQueue: DispatchQueue = .main) {
         self.session = session
         self.callbackQueue = callbackQueue
     }
     
     @discardableResult
-    func load<Value>(_ request: Request<Value>, completion: @escaping (Result<Value, Error>) -> Void) -> URLSessionDataTask {
+    func load<Value>(_ request: Request<Value>, completion: @escaping (Result<Value, Error>) -> Void) -> URLSessionDataTaskType {
         let task = session.dataTask(with: request.url) { data, _, error in
             guard let data = data else {
                 return self.onCallbackQueue { completion(error?.isNoInternet == true ? .failure(.noInternet) : .failure(.networking)) }

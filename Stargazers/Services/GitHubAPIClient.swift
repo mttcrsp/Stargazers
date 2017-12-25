@@ -61,8 +61,8 @@ struct GitHubAPIClient {
     private let callbackQueue: DispatchQueue
     private let webservice: Webservice
     
-    init(webservice: Webservice = Webservice(), callbackQueue: DispatchQueue = .main) {
-        self.webservice = webservice
+    init(session: URLSessionType = URLSession.shared, callbackQueue: DispatchQueue = .main) {
+        self.webservice = Webservice(session: session)
         self.callbackQueue = callbackQueue
     }
     
@@ -97,9 +97,9 @@ struct GitHubAPIClient {
 
 extension Error {
     static var invalidAPIRequest: Error {
-        let errorDescription = NSLocalizedString("Network error", comment: "alert title")
-        let failureReason = NSLocalizedString("Something went wrong while communicating with our servers.", comment: "alert message")
-        let recoverySuggestion = NSLocalizedString("Please, try again later.", comment: "alert message")
+        let errorDescription = NSLocalizedString("Invalid query", comment: "alert title")
+        let failureReason = NSLocalizedString("Something went wrong while communicating with the GitHub API.", comment: "alert message")
+        let recoverySuggestion = NSLocalizedString("Check that your query does not contain any invalid characters, then retry.", comment: "alert message")
         return Error(errorDescription: errorDescription, failureReason: failureReason, recoverySuggestion: recoverySuggestion)
     }
 }

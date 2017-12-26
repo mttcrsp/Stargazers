@@ -14,6 +14,7 @@ final class StargazersController: NSObject {
     private var repositoriesPaginator: Paginator<Repository>?
     
     private weak var usersViewController: UsersViewController?
+    private weak var splitViewController: UISplitViewController?
     
     private lazy var searchController: UISearchController = {
         let searchController = UISearchController(searchResultsController: nil)
@@ -52,8 +53,6 @@ final class StargazersController: NSObject {
         usersViewController.dataSource = self
         usersViewController.definesPresentationContext = true
         
-        self.usersViewController = usersViewController
-        
         let navigationController = UINavigationController(rootViewController: usersViewController)
         navigationController.delegate = self
         
@@ -65,7 +64,13 @@ final class StargazersController: NSObject {
             usersViewController.tableView.tableHeaderView = searchController.searchBar
         }
         
-        window.rootViewController = navigationController
+        let splitViewController = UISplitViewController()
+        splitViewController.viewControllers = [navigationController]
+        
+        self.splitViewController = splitViewController
+        self.usersViewController = usersViewController
+        
+        window.rootViewController = splitViewController
     }
 }
 
@@ -83,16 +88,16 @@ extension StargazersController: UISearchResultsUpdating {
 extension StargazersController: UsersViewControllerDataSource, UsersViewControllerDelegate {
     
     func usersViewController(_ usersViewController: UsersViewController, didSelect user: User) {
-        interactionLimiter.execute { [weak self, weak usersViewController] item in
+        interactionLimiter.execute { [weak self] item in
             let paginator = Paginator(size: 50, block: { page, perPage, completion in
                 self?.gitHubClient.repositories(for: user, page: page, perPage: perPage, completion: completion)
             })
             
             paginator.loadMore { error in
-                guard let `self` = self, let usersViewController = usersViewController else { return }
+                guard let splitViewController = self?.splitViewController, let usersViewController = self?.usersViewController else { return }
                 
                 if let error = error {
-                    return usersViewController.display(error)
+                    return splitViewController.display(error)
                 }
                 
                 let repositoriesViewController = RepositoriesViewController()
@@ -104,7 +109,8 @@ extension StargazersController: UsersViewControllerDataSource, UsersViewControll
                     repositoriesViewController.navigationItem.largeTitleDisplayMode = .never
                 }
                 
-                usersViewController.show(repositoriesViewController, sender: usersViewController)
+                let navigationController = UINavigationController(rootViewController: repositoriesViewController)
+                splitViewController.showDetailViewController(navigationController, sender: usersViewController)
             }
             
             self?.repositoriesPaginator = paginator

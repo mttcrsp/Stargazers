@@ -55,6 +55,7 @@ final class StargazersController: NSObject {
         self.usersViewController = usersViewController
         
         let navigationController = UINavigationController(rootViewController: usersViewController)
+        navigationController.delegate = self
         
         if #available(iOS 11.0, *) {
             navigationController.navigationBar.prefersLargeTitles = true
@@ -65,26 +66,6 @@ final class StargazersController: NSObject {
         }
         
         window.rootViewController = navigationController
-    }
-    
-    func loadMoreRepositories(for repositoriesViewController: RepositoriesViewController) {
-        repositoriesPaginator?.loadMore { error in
-            if let error = error {
-                repositoriesViewController.display(error)
-            } else {
-                repositoriesViewController.reloadData()
-            }
-        }
-    }
-    
-    func loadMoreStargazers(for stargazersViewController: StargazersViewController) {
-        stargazersPaginator?.loadMore { error in
-            if let error = error {
-                stargazersViewController.display(error)
-            } else {
-                stargazersViewController.reloadData()
-            }
-        }
     }
 }
 
@@ -149,6 +130,7 @@ extension StargazersController: RepositoriesViewControllerDataSource, Repositori
                 }
                 
                 let stargazersViewController = StargazersViewController()
+                stargazersViewController.delegate = self
                 stargazersViewController.dataSource = self
                 stargazersViewController.title = repository.name
                 repositoriesViewController.show(stargazersViewController, sender: repositoriesViewController)
@@ -157,8 +139,37 @@ extension StargazersController: RepositoriesViewControllerDataSource, Repositori
             self?.stargazersPaginator = paginator
         }
     }
+    
+    func repositoriesViewControllerWillReachBottom(_ repositoriesViewController: RepositoriesViewController) {
+        repositoriesPaginator?.loadMore { error in
+            if let error = error {
+                repositoriesViewController.display(error)
+            } else {
+                repositoriesViewController.reloadData()
+            }
+        }
+    }
 }
 
-extension StargazersController: StargazersViewControllerDataSource {
+extension StargazersController: StargazersViewControllerDataSource, StargazersViewControllerDelegate {
+    
     var stargazers: [User] { return stargazersPaginator?.values ?? [] }
+    
+    func stargazersViewControllerWillReachBottom(_ stargazersViewController: StargazersViewController) {
+        stargazersPaginator?.loadMore { error in
+            if let error = error {
+                stargazersViewController.display(error)
+            } else {
+                stargazersViewController.reloadData()
+            }
+        }
+    }
+}
+
+extension StargazersController: UINavigationControllerDelegate {
+    func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
+        if viewController is UsersViewController {
+            interactionLimiter.cancel()
+        }
+    }
 }

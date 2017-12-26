@@ -7,12 +7,16 @@ import UIKit
 
 protocol StargazersViewControllerDataSource: class {
     var stargazers: [User] { get }
-    func loadMoreStargazers(for stargazersViewController: StargazersViewController)
+}
+
+protocol StargazersViewControllerDelegate: class {
+    func stargazersViewControllerWillReachBottom(_ stargazersViewController: StargazersViewController)
 }
 
 final class StargazersViewController: UITableViewController {
     
     weak var dataSource: StargazersViewControllerDataSource?
+    weak var delegate: StargazersViewControllerDelegate?
     
     var stargazers: [User] {
         return dataSource?.stargazers ?? []
@@ -42,7 +46,7 @@ final class StargazersViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if indexPath.row > stargazers.count - tableView.visibleIndexPathsCount {
-            dataSource?.loadMoreStargazers(for: self)
+            delegate?.stargazersViewControllerWillReachBottom(self)
         }
     }
 }

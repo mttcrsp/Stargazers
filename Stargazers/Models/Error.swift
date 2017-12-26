@@ -7,9 +7,9 @@ import Foundation
 
 struct Error: LocalizedError, Equatable {
     
-    let errorDescription: String
-    let failureReason: String
-    let recoverySuggestion: String
+    let errorDescription: String?
+    let failureReason: String?
+    let recoverySuggestion: String?
     
     static func ==(lhs: Error, rhs: Error) -> Bool {
         return (

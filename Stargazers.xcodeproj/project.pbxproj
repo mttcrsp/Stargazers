@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E30D179A1FF2647F0042E301 /* MessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E30D17991FF2647F0042E301 /* MessageViewController.swift */; };
 		E34621741FF0729100FA3C7C /* UserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E34621731FF0729100FA3C7C /* UserTests.swift */; };
 		E34621771FF072FE00FA3C7C /* User.json in Resources */ = {isa = PBXBuildFile; fileRef = E34621761FF072FE00FA3C7C /* User.json */; };
 		E34621791FF0747100FA3C7C /* RepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E34621781FF0747100FA3C7C /* RepositoryTests.swift */; };
@@ -73,6 +74,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		E30D17991FF2647F0042E301 /* MessageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageViewController.swift; sourceTree = "<group>"; };
 		E34621731FF0729100FA3C7C /* UserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTests.swift; sourceTree = "<group>"; };
 		E34621761FF072FE00FA3C7C /* User.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = User.json; sourceTree = "<group>"; };
 		E34621781FF0747100FA3C7C /* RepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryTests.swift; sourceTree = "<group>"; };
@@ -273,6 +275,7 @@
 				E3C9FDF01FEE486500182B8E /* RepositoriesViewController.swift */,
 				E3C9FDF21FEE489800182B8E /* StargazersViewController.swift */,
 				E3C9FDEE1FEE484400182B8E /* UsersViewController.swift */,
+				E30D17991FF2647F0042E301 /* MessageViewController.swift */,
 			);
 			path = "View controllers";
 			sourceTree = "<group>";
@@ -517,6 +520,7 @@
 				E3C9FE021FEE4A2500182B8E /* URL.swift in Sources */,
 				E3C9FDFB1FEE493800182B8E /* UITableViewCell.swift in Sources */,
 				E3C9FE201FF036B700182B8E /* Webservice.swift in Sources */,
+				E30D179A1FF2647F0042E301 /* MessageViewController.swift in Sources */,
 				E3C9FE0B1FEE4C1300182B8E /* UIViewController.swift in Sources */,
 				E3C9FDF61FEE48CC00182B8E /* UserTableViewCell.swift in Sources */,
 				E3C9FE001FEE49FB00182B8E /* GitHubAPIClient.swift in Sources */,
@@ -729,7 +733,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.mttcrsp.Stargazers;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -749,7 +753,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.mttcrsp.Stargazers;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

@@ -54,12 +54,11 @@ final class StargazersController: NSObject {
         usersViewController.definesPresentationContext = true
         
         let navigationController = UINavigationController(rootViewController: usersViewController)
-        navigationController.delegate = self
         
         if #available(iOS 11.0, *) {
             navigationController.navigationBar.prefersLargeTitles = true
-            usersViewController.navigationItem.searchController = searchController
             usersViewController.navigationItem.hidesSearchBarWhenScrolling = false
+            usersViewController.navigationItem.searchController = searchController
         } else {
             usersViewController.tableView.tableHeaderView = searchController.searchBar
         }
@@ -94,23 +93,33 @@ extension StargazersController: UsersViewControllerDataSource, UsersViewControll
             })
             
             paginator.loadMore { error in
-                guard let splitViewController = self?.splitViewController, let usersViewController = self?.usersViewController else { return }
+                guard let `self` = self, let splitViewController = self.splitViewController else { return }
                 
                 if let error = error {
                     return splitViewController.display(error)
                 }
                 
-                let repositoriesViewController = RepositoriesViewController()
-                repositoriesViewController.delegate = self
-                repositoriesViewController.dataSource = self
-                repositoriesViewController.title = user.login
+                let detailViewController: UIViewController
                 
-                if #available(iOS 11.0, *) {
-                    repositoriesViewController.navigationItem.largeTitleDisplayMode = .never
+                if self.repositories.isEmpty {
+                    let messageViewController = MessageViewController()
+                    messageViewController.message = .localizedStringWithFormat(NSLocalizedString("%@ has no repositories", comment: "displayed as an empty screen message"), user.login)
+                    detailViewController = messageViewController
+                } else {
+                    let repositoriesViewController = RepositoriesViewController()
+                    repositoriesViewController.delegate = self
+                    repositoriesViewController.dataSource = self
+                    detailViewController = repositoriesViewController
                 }
                 
-                let navigationController = UINavigationController(rootViewController: repositoriesViewController)
-                splitViewController.showDetailViewController(navigationController, sender: usersViewController)
+                detailViewController.title = user.login
+                
+                if #available(iOS 11.0, *) {
+                    detailViewController.navigationItem.largeTitleDisplayMode = .never
+                }
+                
+                let navigationController = UINavigationController(rootViewController: detailViewController)
+                splitViewController.showDetailViewController(navigationController, sender: self)
             }
             
             self?.repositoriesPaginator = paginator
@@ -139,7 +148,7 @@ extension StargazersController: RepositoriesViewControllerDataSource, Repositori
                 stargazersViewController.delegate = self
                 stargazersViewController.dataSource = self
                 stargazersViewController.title = repository.name
-                repositoriesViewController.show(stargazersViewController, sender: repositoriesViewController)
+                repositoriesViewController.show(stargazersViewController, sender: self)
             }
             
             self?.stargazersPaginator = paginator
@@ -168,14 +177,6 @@ extension StargazersController: StargazersViewControllerDataSource, StargazersVi
             } else {
                 stargazersViewController.reloadData()
             }
-        }
-    }
-}
-
-extension StargazersController: UINavigationControllerDelegate {
-    func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
-        if viewController is UsersViewController {
-            interactionLimiter.cancel()
         }
     }
 }

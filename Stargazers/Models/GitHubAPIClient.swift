@@ -5,6 +5,10 @@
 
 import Foundation
 
+/// A lightweight wrapper for the GitHub API endpoints needed by the app:
+///  1. user search
+///  2. repositories for user
+///  4. stargazers for repository
 struct GitHubAPIClient {
     
     /// According to the documentation, the GitHub API pagination mechanism:
@@ -79,12 +83,17 @@ struct GitHubAPIClient {
     }
     
     private func performRequest<Value>(_ request: Webservice.Request<Value>?, completion: @escaping (Result<Value, Error>) -> Void) {
+        // If no valid request can be instantiated from the client input,
+        // signal to the client that the request is malformed via an
+        // `invalidAPIRequest` error.
         guard let request = request else {
             return onCallbackQueue {
                 completion(.failure(.invalidAPIRequest))
             }
         }
         
+        // Otherwise perform the request and dispatch the result back to the
+        // client specified callback queue.
         webservice.load(request) { result in
             self.onCallbackQueue { completion(result) }
         }

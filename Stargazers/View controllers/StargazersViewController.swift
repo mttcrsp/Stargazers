@@ -39,8 +39,8 @@ final class StargazersViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: UserTableViewCell.reuseIdentifier, for: indexPath) as! UserTableViewCell
-        cell.selectionStyle = .none
         cell.configure(with: stargazers[indexPath.row])
+        cell.selectionStyle = .none
         return cell
     }
     

@@ -40,6 +40,10 @@ final class RepositoriesViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: RepositoryTableViewCell.reuseIdentifier, for: indexPath) as! RepositoryTableViewCell
+        
+        // Only allow selection of repositories with more than one stargazer
+        // associated with them. Otherwise there's you'd just be presenting a
+        // screen that you already know will be empty.
         let repository = repositories[indexPath.row]
         cell.accessoryType = repository.hasStargazers ? .disclosureIndicator : .none
         cell.selectionStyle = repository.hasStargazers ? .default : .none
@@ -54,6 +58,9 @@ final class RepositoriesViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        // When the table view has a screenful left of content signal to the
+        // delegate object that the view controller is about to run out of
+        // content.
         if indexPath.row > repositories.count - tableView.visibleIndexPathsCount {
             delegate?.repositoriesViewControllerWillReachBottom(self)
         }

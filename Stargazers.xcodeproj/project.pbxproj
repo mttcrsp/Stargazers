@@ -210,10 +210,11 @@
 		E3C9FDED1FEE47F500182B8E /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				E3C9FDE91FEE47D700182B8E /* Repository.swift */,
-				E3C9FDEB1FEE47E500182B8E /* Result.swift */,
 				E3C9FDE71FEE47B900182B8E /* User.swift */,
+				E3C9FDE91FEE47D700182B8E /* Repository.swift */,
+				E3C9FDFF1FEE49FB00182B8E /* GitHubAPIClient.swift */,
 				E371E2DD1FF06A480057D77B /* Error.swift */,
+				E3C9FDEB1FEE47E500182B8E /* Result.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -256,7 +257,6 @@
 		E3C9FE051FEE4A8A00182B8E /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				E3C9FDFF1FEE49FB00182B8E /* GitHubAPIClient.swift */,
 				E3C9FE1F1FF036B700182B8E /* Webservice.swift */,
 				E3C9FE211FF05B7E00182B8E /* Paginator.swift */,
 				E3C9FE061FEE4AA400182B8E /* Throttler.swift */,

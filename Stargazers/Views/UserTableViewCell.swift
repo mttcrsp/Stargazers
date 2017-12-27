@@ -17,10 +17,16 @@ final class UserTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
         contentView.addSubview(avatarImageView)
         contentView.addSubview(loginLabel)
-        avatarImageView.layer.cornerRadius = 2
-        avatarImageView.layer.masksToBounds = true
+        
+        let cornerRadii = CGSize(width: 2, height: 2)
+        let roundedRect = CGRect(origin: .zero, size: avatarSize)
+        let path = UIBezierPath(roundedRect: roundedRect, byRoundingCorners: .allCorners, cornerRadii: cornerRadii)
+        let mask = CAShapeLayer()
+        mask.path = path.cgPath
+        avatarImageView.layer.mask = mask
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -30,12 +36,18 @@ final class UserTableViewCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         
+        // Size the avatar image view and place it vertically centered and
+        // right aligned.
         avatarImageView.frame.size = avatarSize
         avatarImageView.frame.origin.x = padding
         avatarImageView.center.y = contentView.frame.midY
         
-        let targetWidth = (contentView.frame.width - padding) - avatarImageView.frame.maxX - (spacing * 2)
+        // Compute the size in which the login label should fit
+        let targetWidth = contentView.frame.width - avatarImageView.frame.maxX - padding - (spacing * 2)
         let targetSize = CGSize(width: targetWidth, height: contentView.frame.height)
+        
+        // Size the label and place it vertically centered next to the avatar
+        // image view.
         loginLabel.frame.size = loginLabel.sizeThatFits(targetSize)
         loginLabel.frame.origin.x = avatarImageView.frame.maxX + spacing
         loginLabel.center.y = contentView.frame.midY
@@ -45,7 +57,7 @@ final class UserTableViewCell: UITableViewCell {
         loginLabel.text = user.login
         let gitHubSize = Int(avatarSize.width * UIScreen.main.scale)
         let gitHubURL = user.avatarURL.appendingQueryItem(name: "size", value: "\(gitHubSize)")
-        avatarImageView.pin_setImage(from: gitHubURL, placeholderImage: .withSolidColor(.lightGray, size: avatarSize))
+        avatarImageView.pin_setImage(from: gitHubURL, placeholderImage: .withSolidColor(#colorLiteral(red: 0.921431005, green: 0.9214526415, blue: 0.9214410186, alpha: 1), size: avatarSize))
     }
     
     override func prepareForReuse() {

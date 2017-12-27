@@ -5,6 +5,9 @@
 
 import Foundation
 
+/// A type that simplifies the execution of network requests. Each network
+/// request is represented by `Request` struct which groups together information
+/// about where to find a resouce and how to decode it.
 struct Webservice {
     
     struct Request<Value> {
@@ -23,8 +26,16 @@ struct Webservice {
     @discardableResult
     func load<Value>(_ request: Request<Value>, completion: @escaping (Result<Value, Error>) -> Void) -> URLSessionDataTaskType {
         let task = session.dataTask(with: request.url) { data, _, error in
+            
             guard let data = data else {
-                return self.onCallbackQueue { completion(error?.isNoInternet == true ? .failure(.noInternet) : .failure(.networking)) }
+                // No internet connection are special cased because they're the
+                // most actionable ones from the user point of view.
+                if let error = error, error.isNoInternet {
+                    self.onCallbackQueue { completion(.failure(.noInternet)) }
+                } else {
+                    self.onCallbackQueue { completion(.failure(.networking)) }
+                }
+                return
             }
             
             do {

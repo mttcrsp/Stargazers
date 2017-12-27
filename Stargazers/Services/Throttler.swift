@@ -5,6 +5,11 @@
 
 import Foundation
 
+/// Class that ensures that, given a request, this is performed only after the
+/// specified time interval. During this time interval, other request can cause
+/// cancellation of the original request and take its place. This is
+/// particularly useful when managing the execution of network requests as the
+/// user types.
 final class Throttler {
     
     let block: () -> Void

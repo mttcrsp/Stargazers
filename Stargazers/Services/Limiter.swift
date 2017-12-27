@@ -5,6 +5,11 @@
 
 import Dispatch
 
+/// A class that can be used to ensure that, given multiple requests in rapid
+/// succession, only the latter is actually performed and completed, cancelling
+/// all previous ones. This is particularly useful to handle situations in which
+/// the user may perform multiple conflicting actions. (e.g. tapping many cells
+/// in rapid succession to open the detail screen of different users)
 final class Limiter {
     
     let queue: DispatchQueue

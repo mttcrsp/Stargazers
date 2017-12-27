@@ -9,9 +9,8 @@ final class StargazersController: NSObject {
     
     private (set) var query = ""
     private (set) var users: [User] = []
-    
-    private var stargazersPaginator: Paginator<User>?
-    private var repositoriesPaginator: Paginator<Repository>?
+    private (set) var stargazers: [User] = []
+    private (set) var repositories: [Repository] = []
     
     private weak var usersViewController: UsersViewController?
     private weak var splitViewController: UISplitViewController?
@@ -28,7 +27,7 @@ final class StargazersController: NSObject {
         return Throttler(limit: 0.5) { [weak self] in
             guard let `self` = self, !self.query.isEmpty else { return }
             
-            self.gitHubClient.users(for: self.query) { [weak self] result in
+            self.gitHubAPIClient.users(for: self.query) { [weak self] result in
                 switch result {
                 case .success(let users):
                     self?.users = users
@@ -40,11 +39,14 @@ final class StargazersController: NSObject {
         }
     }()
     
-    private let interactionLimiter = Limiter()
-    private var gitHubClient: GitHubAPIClient
+    private var stargazersPaginator: Paginator<User>?
+    private var repositoriesPaginator: Paginator<Repository>?
+    
+    private let limiter = Limiter()
+    private var gitHubAPIClient: GitHubAPIClient
     
     init(session: URLSessionType = URLSession.shared) {
-        self.gitHubClient = GitHubAPIClient(session: session)
+        self.gitHubAPIClient = GitHubAPIClient(session: session)
     }
     
     func startFlow(from window: UIWindow) {
@@ -87,80 +89,82 @@ extension StargazersController: UISearchResultsUpdating {
 extension StargazersController: UsersViewControllerDataSource, UsersViewControllerDelegate {
     
     func usersViewController(_ usersViewController: UsersViewController, didSelect user: User) {
-        interactionLimiter.execute { [weak self] item in
-            let paginator = Paginator(size: 50, block: { page, perPage, completion in
-                self?.gitHubClient.repositories(for: user, page: page, perPage: perPage, completion: completion)
+        limiter.execute { [weak self] item in
+            self?.repositoriesPaginator = Paginator(size: 50, block: { page, perPage, completion in
+                self?.gitHubAPIClient.repositories(for: user, page: page, perPage: perPage, completion: completion)
             })
             
-            paginator.loadMore { error in
+            self?.repositoriesPaginator?.loadMore { result in
                 guard let `self` = self, let splitViewController = self.splitViewController else { return }
                 
-                if let error = error {
-                    return splitViewController.display(error)
+                switch result {
+                case .failure(let error):
+                    splitViewController.display(error)
+                case .success(let repositories):
+                    let detailViewController: UIViewController
+                    
+                    self.repositories = repositories
+                    
+                    if self.repositories.isEmpty {
+                        let messageViewController = MessageViewController()
+                        messageViewController.message = .localizedStringWithFormat(NSLocalizedString("%@ has no repositories", comment: "displayed as an empty screen message"), user.login)
+                        detailViewController = messageViewController
+                    } else {
+                        let repositoriesViewController = RepositoriesViewController()
+                        repositoriesViewController.delegate = self
+                        repositoriesViewController.dataSource = self
+                        detailViewController = repositoriesViewController
+                    }
+                    
+                    detailViewController.title = user.login
+                    
+                    if #available(iOS 11.0, *) {
+                        detailViewController.navigationItem.largeTitleDisplayMode = .never
+                    }
+                    
+                    let navigationController = UINavigationController(rootViewController: detailViewController)
+                    splitViewController.showDetailViewController(navigationController, sender: self)
                 }
-                
-                let detailViewController: UIViewController
-                
-                if self.repositories.isEmpty {
-                    let messageViewController = MessageViewController()
-                    messageViewController.message = .localizedStringWithFormat(NSLocalizedString("%@ has no repositories", comment: "displayed as an empty screen message"), user.login)
-                    detailViewController = messageViewController
-                } else {
-                    let repositoriesViewController = RepositoriesViewController()
-                    repositoriesViewController.delegate = self
-                    repositoriesViewController.dataSource = self
-                    detailViewController = repositoriesViewController
-                }
-                
-                detailViewController.title = user.login
-                
-                if #available(iOS 11.0, *) {
-                    detailViewController.navigationItem.largeTitleDisplayMode = .never
-                }
-                
-                let navigationController = UINavigationController(rootViewController: detailViewController)
-                splitViewController.showDetailViewController(navigationController, sender: self)
             }
-            
-            self?.repositoriesPaginator = paginator
         }
     }
 }
 
 extension StargazersController: RepositoriesViewControllerDataSource, RepositoriesViewControllerDelegate {
     
-    var repositories: [Repository] { return repositoriesPaginator?.values ?? [] }
-    
     func repositoriesViewController(_ repositoriesViewController: RepositoriesViewController, didSelect repository: Repository) {
-        interactionLimiter.execute { [weak self, weak repositoriesViewController] item in
-            let paginator = Paginator(size: 100, block: { page, perPage, completion in
-                self?.gitHubClient.stargazers(for: repository, page: page, perPage: perPage, completion: completion)
+        limiter.execute { [weak self, weak repositoriesViewController] item in
+            self?.stargazersPaginator = Paginator(size: 100, block: { page, perPage, completion in
+                self?.gitHubAPIClient.stargazers(for: repository, page: page, perPage: perPage, completion: completion)
             })
             
-            paginator.loadMore { error in
+            self?.stargazersPaginator?.loadMore { result in
                 guard let `self` = self, let repositoriesViewController = repositoriesViewController else { return }
                 
-                if let error = error {
-                    return repositoriesViewController.display(error)
+                switch result {
+                case .failure(let error):
+                    repositoriesViewController.display(error)
+                case .success(let stargazers):
+                    self.stargazers = stargazers
+                    
+                    let stargazersViewController = StargazersViewController()
+                    stargazersViewController.delegate = self
+                    stargazersViewController.dataSource = self
+                    stargazersViewController.title = repository.name
+                    repositoriesViewController.show(stargazersViewController, sender: self)
                 }
-                
-                let stargazersViewController = StargazersViewController()
-                stargazersViewController.delegate = self
-                stargazersViewController.dataSource = self
-                stargazersViewController.title = repository.name
-                repositoriesViewController.show(stargazersViewController, sender: self)
             }
-            
-            self?.stargazersPaginator = paginator
         }
     }
     
     func repositoriesViewControllerWillReachBottom(_ repositoriesViewController: RepositoriesViewController) {
-        repositoriesPaginator?.loadMore { error in
-            if let error = error {
-                repositoriesViewController.display(error)
-            } else {
-                repositoriesViewController.reloadData()
+        repositoriesPaginator?.loadMore { [weak self, weak repositoriesViewController] result in
+            switch result {
+            case .failure(let error):
+                repositoriesViewController?.display(error)
+            case .success(let repositories):
+                self?.repositories += repositories
+                repositoriesViewController?.reloadData()
             }
         }
     }
@@ -168,14 +172,14 @@ extension StargazersController: RepositoriesViewControllerDataSource, Repositori
 
 extension StargazersController: StargazersViewControllerDataSource, StargazersViewControllerDelegate {
     
-    var stargazers: [User] { return stargazersPaginator?.values ?? [] }
-    
     func stargazersViewControllerWillReachBottom(_ stargazersViewController: StargazersViewController) {
-        stargazersPaginator?.loadMore { error in
-            if let error = error {
-                stargazersViewController.display(error)
-            } else {
-                stargazersViewController.reloadData()
+        stargazersPaginator?.loadMore { [weak self, weak stargazersViewController] result in
+            switch result {
+            case .failure(let error):
+                stargazersViewController?.display(error)
+            case .success(let stargazers):
+                self?.stargazers += stargazers
+                stargazersViewController?.reloadData()
             }
         }
     }

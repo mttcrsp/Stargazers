@@ -37,11 +37,13 @@ class PaginatorTests: XCTestCase {
         let subject = Paginator(size: size) { page, size, completion in
             loader.load(page: page, size: size, completion: completion)
         }
-        subject.loadMore { error in XCTAssertNil(error)
-            XCTAssertEqual(subject.values, [1, 2])
-            subject.loadMore { error in XCTAssertNil(error)
-                // THEN: it progressively loads the appropriate values
-                XCTAssertEqual(subject.values, [1, 2, 3, 4])
+        // THEN: it progressively loads the appropriate values
+        subject.loadMore { result in
+            guard case .success(let values) = result else { return XCTFail() }
+            XCTAssertEqual(values, [1, 2])
+            subject.loadMore { result in
+                guard case .success(let values) = result else { return XCTFail() }
+                XCTAssertEqual(values, [3, 4])
                 expection.fulfill()
             }
         }
@@ -57,9 +59,10 @@ class PaginatorTests: XCTestCase {
         let subject = Paginator(size: size) { page, size, completion in
             loader.load(page: page, size: size, completion: completion)
         }
-        subject.loadMore { error in XCTAssertNil(error)
-            // THEN: the first load request completes and the second one is cancelled
-            XCTAssertEqual(subject.values, [1, 2])
+        // THEN: the first load request completes and the second one is cancelled
+        subject.loadMore { result in
+            guard case .success(let values) = result else { return XCTFail() }
+            XCTAssertEqual(values, [1, 2])
             expection.fulfill()
         }
         subject.loadMore { _ in XCTFail() }
@@ -75,14 +78,17 @@ class PaginatorTests: XCTestCase {
         let subject = Paginator(size: size) { page, size, completion in
             loader.load(page: page, size: size, completion: completion)
         }
-        subject.loadMore { error in XCTAssertNil(error)
-            XCTAssertEqual(subject.values, [1, 2])
-            subject.loadMore { error in XCTAssertNil(error)
-                XCTAssertEqual(subject.values, [1, 2, 3, 4])
-                subject.loadMore { error in XCTAssertNil(error)
-                    // THEN: it progressively loads all values and cancels all
-                    // requests when all have been loaded
-                    XCTAssertEqual(subject.values, [1, 2, 3, 4, 5])
+        // THEN: it progressively loads all values and cancels all
+        // requests when all have been loaded
+        subject.loadMore { result in
+            guard case .success(let values) = result else { return XCTFail() }
+            XCTAssertEqual(values, [1, 2])
+            subject.loadMore { result in
+                guard case .success(let values) = result else { return XCTFail() }
+                XCTAssertEqual(values, [3, 4])
+                subject.loadMore { result in
+                    guard case .success(let values) = result else { return XCTFail() }
+                    XCTAssertEqual(values, [5])
                     expection.fulfill()
                     subject.loadMore { _ in XCTFail() }
                 }

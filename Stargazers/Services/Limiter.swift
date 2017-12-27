@@ -15,7 +15,7 @@ final class Limiter {
     let queue: DispatchQueue
     
     private var item: DispatchWorkItem?
-    private let syncQueue: DispatchQueue = .global()
+    private let syncQueue = DispatchQueue(label: String(describing: Limiter.self))
     
     init(queue: DispatchQueue = .main) {
         self.queue = queue

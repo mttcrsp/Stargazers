@@ -22,7 +22,7 @@ final class Paginator<Value> {
     
     private (set) var state: State = .waiting
     
-    private let syncQueue: DispatchQueue = .global()
+    private let syncQueue = DispatchQueue(label: String(describing: Paginator.self))
     private let loadPage: Loader
     private var currentPage: Int
     private let pageSize: Int

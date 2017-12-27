@@ -17,7 +17,7 @@ final class Throttler {
     let queue: DispatchQueue
     
     private var item: DispatchWorkItem?
-    private let syncQueue: DispatchQueue = .global()
+    private let syncQueue = DispatchQueue(label: String(describing: Throttler.self))
     
     init(limit: TimeInterval, queue: DispatchQueue = .main, block: @escaping () -> Void) {
         self.limit = limit
